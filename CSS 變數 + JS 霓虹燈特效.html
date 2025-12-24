@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS 變數 + JS 霓虹燈特效</title>
+   <style>
+        /* --- 1. 定義 CSS 變數 (預設值) --- */
+        :root {
+            --neon-color: #0ff;   /* 預設顏色：青色 */
+            --glow-size: 20px;    /* 預設發光範圍 */
+        }
+
+        body {
+            background-color: #050505; /* 極深色背景是霓虹燈的關鍵 */
+            font-family: Arial, monospace, 'Courier New', Courier; /* 復古科技感字體 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: white;
+        }
+
+        /* --- 2. 霓虹燈文字樣式 --- */
+        .neon-text {
+            font-size: 5rem;
+            font-weight: bold;
+            color: #fff; /* 燈管中心通常是白亮色 */
+            text-transform: uppercase;
+            
+            /* 關鍵：利用多層 text-shadow 創造發光感 */
+            /* 這裡引用了 CSS 變數 */
+            text-shadow:
+                0 0 5px #fff,                         /* 內層光暈 (白) */
+                0 0 10px #fff,                        /* 次內層 (白) */
+                0 0 20px var(--neon-color),           /* 外層光暈 (變數色) */
+                0 0 40px var(--neon-color),           /* 更外層 (變數色) */
+                0 0 var(--glow-size) var(--neon-color); /* 最外層擴散 (變數大小 + 變數色) */
+            
+            transition: text-shadow 0.2s ease; /* 讓變化平滑一點 */
+        }
+
+        /* --- 控制面板樣式 (Glassmorphism 微玻璃感) --- */
+        .controls {
+            margin-top: 50px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        label {
+            font-size: 1.1rem;
+            margin-right: 10px;
+        }
+
+        input[type="range"] {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="neon-text" id="demoText">CYBERPUNK</h1>
+
+    <div class="controls">
+        <div>
+            <label for="colorPicker">霓虹色調:</label>
+            <input type="color" id="colorPicker" value="#00ffff">
+        </div>
+        <div>
+            <label for="glowRange">發光強度:</label>
+            <input type="range" id="glowRange" min="10" max="100" value="20">
+        </div>
+    </div>
+
+    <script>
+        // --- 3. JavaScript 互動邏輯 ---
+        
+        // 選取輸入元件
+        const colorPicker = document.getElementById('colorPicker');
+        const glowRange = document.getElementById('glowRange');
+        
+        // 選取根元素 (html)，因為變數是定義在 :root
+        const root = document.documentElement;
+
+        // 監聽顏色改變事件
+        colorPicker.addEventListener('input', (e) => {
+            const newColor = e.target.value;
+            // 核心語法：更新 CSS 變數
+            root.style.setProperty('--neon-color', newColor);
+        });
+
+        // 監聽滑桿移動事件
+        glowRange.addEventListener('input', (e) => {
+            const newSize = e.target.value + 'px'; // 記得加上單位 px
+            // 核心語法：更新 CSS 變數
+            root.style.setProperty('--glow-size', newSize);
+        });
+    </script>
+</body>
+</html>

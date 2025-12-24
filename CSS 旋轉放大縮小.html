@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerPoint 旋轉放大效果</title>
+    <!-- 引入 Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 定義進入和離開動畫的基礎過渡屬性 */
+        #content-box {
+            /* 讓所有的變換（scale, rotate, opacity）都在 1000ms 內平滑完成 */
+            transition: transform 1000ms ease-in-out, opacity 1000ms ease-in-out;
+            transform-origin: center center; /* 確保旋轉和縮放從中心點進行 */
+            cursor: pointer;
+        }
+
+        /* 初始狀態（離開或未進入）: 隱藏、縮小、旋轉 -180 度 */
+        .state-initial {
+            opacity: 0;
+            transform: scale(0.1) rotate(-180deg);
+        }
+
+        /* 進入狀態: 完全顯示、正常大小、無旋轉 */
+        .state-entered {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+        }
+
+        /* 離開狀態: 隱藏、縮小、旋轉 +180 度 (與進入方向相反) */
+        .state-exiting {
+            opacity: 0;
+            /* 讓它往相反方向旋轉離開 */
+            transform: scale(0.1) rotate(180deg);
+        }
+    </style>
+    <script>
+        function initializeApp() {
+            const contentBox = document.getElementById('content-box');
+            const messageElement = document.getElementById('message');
+
+            // --- 步驟 1: 進入動畫 (Page Load) ---
+            // 延遲一點時間啟動進入動畫，確保 CSS 初始狀態已經被設定
+            setTimeout(() => {
+                contentBox.classList.remove('state-initial');
+                contentBox.classList.add('state-entered');
+            }, 50); // 輕微延遲
+
+            // --- 步驟 2: 點擊後離開動畫 (Click Event) ---
+            contentBox.addEventListener('click', () => {
+                // 檢查是否已在離開中或已離開，避免重複觸發
+                if (contentBox.classList.contains('state-exiting')) {
+                    return;
+                }
+
+                // 設定為離開狀態
+                contentBox.classList.remove('state-entered');
+                contentBox.classList.add('state-exiting');
+                messageElement.textContent = "內容正在旋轉縮小離開畫面...";
+                
+                // 動畫結束後（1000ms），隱藏並重置為初始狀態，以便下次重新進入
+                setTimeout(() => {
+                    // 將 box 設為不可點擊
+                    contentBox.style.pointerEvents = 'none';
+                    messageElement.textContent = "內容已離開。請重新整理頁面觀看進入效果。";
+                }, 1000); // 匹配 CSS 過渡時間
+            });
+        }
+        
+        // 在視窗載入完成後啟動應用程式
+        window.onload = initializeApp;
+    </script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
+
+    <div id="message" class="mb-8 text-xl font-semibold text-gray-700">
+        內容將旋轉放大進入畫面...
+    </div>
+
+    <!-- 這是將要進行動畫的內容區域 -->
+    <div id="content-box" class="state-initial w-full max-w-lg p-10 bg-white shadow-2xl rounded-xl border-t-8 border-indigo-600 select-none hover:shadow-3xl transition duration-300">
+        
+        <h1 class="text-3xl font-bold text-indigo-700 mb-4 text-center">旋轉放大進入畫面</h1>
+        
+        <p class="text-gray-600 mb-6 text-center">
+            這個區塊模仿了 PowerPoint 中的「旋轉放大」效果。
+        </p>
+
+        <ul class="list-disc list-inside text-gray-500 space-y-1">
+            <li><strong class="text-indigo-500">進入效果：</strong> 頁面載入後，內容從縮小、旋轉的狀態，平滑地放大、旋轉至居中顯示。</li>
+            <li><strong class="text-indigo-500">離開效果：</strong> <span class="font-semibold text-red-500">點擊此內容區域</span> 後，它會旋轉並縮小離開畫面。</li>
+        </ul>
+
+        <div class="mt-6 text-center text-sm text-gray-400">
+            點擊我來觸發離開動畫！
+        </div>
+    </div>
+
+</body>
+</html>

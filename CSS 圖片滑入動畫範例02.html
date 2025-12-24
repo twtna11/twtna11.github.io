@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>捲動淡入特效示範</title>
+    <style>
+        /* --- 基礎設定 --- */
+        body {
+            font-family: "Microsoft JhengHei", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            overflow-x: hidden; /* 防止動畫造成的水平捲軸 */
+            color: #333;
+        }
+
+        /* --- 區塊通用樣式 --- */
+        section {
+            min-height: 100vh; /* 每個區塊至少佔滿一個螢幕高度，確保需要捲動 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 1000px;
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        /* 手機版將內容改為垂直排列 */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        .content {
+            flex: 1;
+        }
+
+        .content h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .content p {
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .image-box {
+            flex: 1;
+        }
+
+        .image-box img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        /* --- 背景色區分 (選用) --- */
+        #section1 { background-color: #e0f7fa; }
+        #section2 { background-color: #fff3e0; }
+        #section3 { background-color: #f3e5f5; }
+
+        /* --- 動畫關鍵樣式 --- */
+        
+        /* 隱藏狀態：透明且有位移 */
+        .hidden-left {
+            opacity: 0;
+            transform: translateX(-100px); /* 初始位置在左邊 */
+            transition: all 1s ease-out;   /* 動畫時間 1秒 */
+        }
+
+        .hidden-right {
+            opacity: 0;
+            transform: translateX(100px);  /* 初始位置在右邊 */
+            transition: all 1s ease-out;   /* 動畫時間 1秒 */
+        }
+
+        /* 顯示狀態：不透明且回到原位 */
+        .show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+
+    <section id="section1">
+        <div class="container">
+            <div class="content">
+                <h2>01. 起始章節</h2>
+                <p>這是網頁的第一個部分。它是靜態的，當你打開網頁時就已經存在這裡。請嘗試向下滑動，查看接下來兩個區塊的動畫效果。</p>
+            </div>
+            <div class="image-box">
+                <img src="https://placehold.co/600x400/007bff/ffffff?text=Section+1" alt="第一張圖片">
+            </div>
+        </div>
+    </section>
+
+    <section id="section2">
+        <div class="container hidden-left"> 
+            <div class="image-box">
+                <img src="https://placehold.co/600x400/ffc107/333333?text=Section+2" alt="第二張圖片">
+            </div>
+            <div class="content">
+                <h2>02. 左側進場</h2>
+                <p>當你捲動到這個區域時，你會發現這個區塊是從<strong>左邊</strong>滑入並逐漸變清晰的。這種效果可以引導使用者的視線，增加閱讀的趣味性。</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="section3">
+        <div class="container hidden-right">
+            <div class="content">
+                <h2>03. 右側進場</h2>
+                <p>這是最後一個區塊。它的動畫方向與上一個相反，是從<strong>右邊</strong>滑入的。透過 CSS 的 Transform 與 JavaScript 的監聽器，我們可以輕鬆實現這種互動體驗。</p>
+            </div>
+            <div class="image-box">
+                <img src="https://placehold.co/600x400/e83e8c/ffffff?text=Section+3" alt="第三張圖片">
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // 建立一個觀察器 (Intersection Observer)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                // 如果元素進入視窗 (isIntersecting 為 true)
+                if (entry.isIntersecting) {
+                    // 加入 'show' class，觸發 CSS transition
+                    entry.target.classList.add('show');
+                } else {
+                    // (選用) 如果希望捲動離開後動畫重置，可以把下面這行打開
+                    // entry.target.classList.remove('show'); 
+                }
+            });
+        });
+
+        // 選取所有帶有隱藏 class 的元素
+        const hiddenElements = document.querySelectorAll('.hidden-left, .hidden-right');
+
+        // 開始觀察這些元素
+        hiddenElements.forEach((el) => observer.observe(el));
+    </script>
+</body>
+</html>

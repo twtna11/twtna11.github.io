@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>使用者註冊範例</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <style>
+        /* 簡單的客製化樣式，讓表單居中並美觀 */
+        body {
+            background-color: #f8f9fa; /* 淺灰色背景 */
+        }
+        .register-container {
+            max-width: 450px;
+            margin-top: 50px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff; /* 白色卡片背景 */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10 register-container">
+
+                <h2 class="text-center mb-4 text-primary">建立新帳號</h2>
+                <p class="text-center text-muted mb-4">歡迎加入我們的服務！</p>
+
+                <form id="registrationForm" class="needs-validation" novalidate>
+                    
+                    <div class="mb-3">
+                        <label for="username" class="form-label">帳號 (Username)</label>
+                        <input type="text" class="form-control" id="username" name="username" required minlength="4">
+                        <div class="invalid-feedback">
+                            帳號是必填的，且至少需要 4 個字元。
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">密碼 (Password)</label>
+                        <input type="password" class="form-control" id="password" name="password" required minlength="6">
+                        <div class="invalid-feedback">
+                            密碼是必填的，且至少需要 6 個字元。
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">確認密碼</label>
+                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                        <div class="invalid-feedback" id="passwordMatchFeedback">
+                            請再次輸入密碼。
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="g-recaptcha" 
+                             data-sitekey="YOUR_RECAPTCHA_SITE_KEY" 
+                             data-callback="recaptchaCallback">
+                        </div>
+                        <div class="invalid-feedback mt-2" id="recaptchaFeedback" style="display: none;">
+                            請完成「我不是機器人」驗證。
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-2" id="registerButton" disabled>
+                        立即註冊
+                    </button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('registrationForm');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const passwordMatchFeedback = document.getElementById('passwordMatchFeedback');
+            const registerButton = document.getElementById('registerButton');
+            const recaptchaFeedback = document.getElementById('recaptchaFeedback');
+            let isRecaptchaVerified = false;
+
+            // reCAPTCHA 成功回呼函式 (全域變數)
+            window.recaptchaCallback = function() {
+                isRecaptchaVerified = true;
+                // reCAPTCHA 成功後，隱藏錯誤提示
+                recaptchaFeedback.style.display = 'none'; 
+                // 檢查所有條件是否滿足，以啟用按鈕
+                checkFormValidity();
+            };
+
+            // 檢查密碼是否匹配
+            function checkPasswordMatch() {
+                if (passwordInput.value !== confirmPasswordInput.value) {
+                    confirmPasswordInput.setCustomValidity('密碼不一致');
+                    passwordMatchFeedback.textContent = '兩次輸入的密碼不一致。';
+                    confirmPasswordInput.classList.add('is-invalid');
+                } else {
+                    confirmPasswordInput.setCustomValidity('');
+                    passwordMatchFeedback.textContent = '請再次輸入密碼。'; // 重設為預設提示
+                    confirmPasswordInput.classList.remove('is-invalid');
+                }
+            }
+
+            // 檢查表單是否整體有效 (包含密碼匹配和 reCAPTCHA)
+            function checkFormValidity() {
+                // 使用原生的 checkValidity() 檢查 HTML5 驗證 (required, minlength 等)
+                const isHtmlValid = form.checkValidity();
+                const isPasswordMatch = passwordInput.value === confirmPasswordInput.value;
+                
+                // 只有在 HTML 驗證、密碼匹配且 reCAPTCHA 通過時，才啟用按鈕
+                if (isHtmlValid && isPasswordMatch && isRecaptchaVerified) {
+                    registerButton.disabled = false;
+                } else {
+                    registerButton.disabled = true;
+                }
+            }
+
+            // 監聽密碼輸入，即時檢查匹配
+            passwordInput.addEventListener('input', function() {
+                checkPasswordMatch();
+                checkFormValidity();
+            });
+
+            confirmPasswordInput.addEventListener('input', function() {
+                checkPasswordMatch();
+                checkFormValidity();
+            });
+
+            // 監聽表單其他輸入，即時檢查啟用按鈕
+            form.querySelectorAll('input').forEach(input => {
+                if (input.id !== 'password' && input.id !== 'confirmPassword') {
+                    input.addEventListener('input', checkFormValidity);
+                }
+            });
+
+
+            // 表單提交事件處理
+            form.addEventListener('submit', function (event) {
+                
+                // 1. 執行密碼匹配檢查
+                checkPasswordMatch();
+                
+                // 2. 檢查 reCAPTCHA 是否已驗證
+                if (!isRecaptchaVerified) {
+                    recaptchaFeedback.style.display = 'block'; // 顯示 reCAPTCHA 錯誤提示
+                } else {
+                    recaptchaFeedback.style.display = 'none';
+                }
+
+                // 3. 檢查 HTML5 驗證和 reCAPTCHA 狀態
+                if (!form.checkValidity() || !isRecaptchaVerified) {
+                    event.preventDefault(); // 阻止表單提交
+                    event.stopPropagation();
+                } else {
+                    // 表單通過所有前端驗證
+                    alert('前端驗證通過！\n帳號: ' + username.value + '\n請準備將資料發送到後端伺服器進行最終處理。');
+                    // 這裡可以加入您的 AJAX/Fetch 程式碼，將表單資料發送到後端
+                    event.preventDefault(); 
+                }
+
+                form.classList.add('was-validated'); // 顯示 Bootstrap 的驗證提示
+            }, false);
+        });
+    </script>
+</body>
+</html>

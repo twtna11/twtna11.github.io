@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>固定在右下角的圖片範例</title>
+    <style>
+        /*
+         * 設定 body 和 html 確保整個頁面可以捲動，以便測試固定效果。
+         * 這裡僅為示範捲動，非固定圖片的必要條件。
+         */
+        body {
+            height: 2000px; /* 設定一個足夠的高度來觸發頁面捲動 */
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* 圖片容器的樣式 */
+        .fixed-image-container {
+            /* 1. 實現固定定位：固定在視窗上，不隨捲軸移動 */
+            position: fixed;
+
+            /* 2. 定位到右下角 */
+            right: 20px; /* 距離視窗右邊緣 20 像素 */
+            bottom: 20px; /* 距離視窗底邊緣 20 像素 */
+
+            /* 3. 設定圖片方框的大小 */
+            width: 100px;
+            height: 100px;
+
+            /* 4. 設定半透明背景 */
+            /* 使用 rgba 設置顏色，最後一個參數 0.6 代表 60% 透明度 */
+            background-color: rgba(0, 0, 0, 0.6);
+            
+            /* 讓內容在容器內居中 (可選) */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            /* 確保它在最上層，不會被其他內容遮擋 (可選) */
+            z-index: 1000;
+            
+            /* 增加圓角讓它看起來更美觀 (可選) */
+            border-radius: 5px;
+        }
+
+        /* 圖片本身的樣式 */
+        .fixed-image-container img {
+            /* 確保圖片填滿容器 */
+            width: 90%; 
+            height: 90%;
+            /* 保持圖片比例並裁剪，如果圖片和容器比例不同 */
+            object-fit: cover;
+            /* 增加一點邊框讓它從半透明背景中突顯 (可選) */
+            border: 1px solid #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>示範頁面內容</h1>
+    <p>這個頁面有足夠長的內容來觸發捲軸，目的是讓您可以看到右下角的圖片方框是固定不動的。</p>
+    <p>請嘗試捲動頁面！無論您怎麼捲動，右下角的黑色半透明方框都會保持在原位。</p>
+
+    <h2>更多內容...</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. ... (此處省略大量示範文字)</p>
+    <p>... 頁面內容持續延伸，直到網頁底部 ...</p>
+
+
+    <div class="fixed-image-container">
+        <img src="images/landscape_09.jpg" alt="固定圖片">
+    </div>
+
+</body>
+</html>

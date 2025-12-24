@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>iOS 液態玻璃數字鍵盤</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap');
+
+        :root {
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --button-size: 75px;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            overflow: hidden;
+            height: 100vh;
+            color: white;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* 背景流動光球動畫 */
+        .ambient-light {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+            background: #0f0c29; 
+        }
+
+        .blob {
+            position: absolute;
+            filter: blur(80px);
+            opacity: 0.8;
+            animation: move-blob 20s infinite alternate ease-in-out;
+            border-radius: 50%;
+        }
+
+        .blob-1 {
+            top: 10%;
+            left: 20%;
+            width: 300px;
+            height: 300px;
+            background: #ff2d55;
+            animation-delay: 0s;
+        }
+
+        .blob-2 {
+            top: 60%;
+            right: 10%;
+            width: 350px;
+            height: 350px;
+            background: #5856d6;
+            animation-delay: -5s;
+        }
+
+        .blob-3 {
+            bottom: -10%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            background: #007aff;
+            animation-delay: -10s;
+        }
+
+        @keyframes move-blob {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+
+        /* 玻璃面板容器 */
+        .glass-container {
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            background: rgba(20, 20, 30, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* 數字顯示圓點 */
+        .pin-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(255, 255, 255, 0.8);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .pin-dot.filled {
+            background-color: white;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            transform: scale(1.1);
+        }
+
+        .pin-dot.shake {
+            animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+
+        /* 數字鍵盤按鈕 */
+        .keypad-btn {
+            width: var(--button-size);
+            height: var(--button-size);
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 數字樣式 */
+        .key-num {
+            font-size: 28px;
+            font-weight: 400;
+            line-height: 1;
+        }
+
+        .key-letters {
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            margin-top: 2px;
+            opacity: 0.7;
+            text-transform: uppercase;
+        }
+
+        /* 按下效果 (Liquid effect) */
+        .keypad-btn:active, .keypad-btn.active {
+            transform: scale(0.92);
+            background: rgba(255, 255, 255, 0.4);
+            box-shadow: 
+                inset 0 0 20px rgba(255, 255, 255, 0.3),
+                0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 點擊時的漣漪光暈 */
+        .keypad-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 70%);
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            transition: transform 0.4s, opacity 0.3s;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .keypad-btn:active::after, .keypad-btn.active::after {
+            transform: translate(-50%, -50%) scale(1.5);
+            opacity: 1;
+            transition: 0s;
+        }
+
+        /* 特殊按鈕 */
+        .keypad-btn.transparent {
+            background: transparent;
+            box-shadow: none;
+            border: none;
+            backdrop-filter: none;
+        }
+
+        .keypad-btn.transparent:active {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+    </style>
+</head>
+<body class="flex items-center justify-center">
+
+    <!-- 動態背景 -->
+    <div class="ambient-light">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <!-- 主介面容器 -->
+    <div class="relative w-full h-full max-w-md mx-auto flex flex-col justify-between p-6">
+        
+        <!-- 頂部狀態列與提示 -->
+        <div class="flex flex-col items-center mt-12 space-y-8 animate-fade-in-down">
+            <div class="flex flex-col items-center">
+                <i class="fas fa-lock text-white/50 text-2xl mb-4"></i>
+                <h1 class="text-xl font-medium tracking-wide text-white/90">輸入密碼</h1>
+            </div>
+
+            <!-- PIN 碼顯示點 -->
+            <div class="flex space-x-6" id="pin-display">
+                <div class="pin-dot"></div>
+                <div class="pin-dot"></div>
+                <div class="pin-dot"></div>
+                <div class="pin-dot"></div>
+            </div>
+        </div>
+
+        <!-- 數字鍵盤 -->
+        <div class="glass-container rounded-[2.5rem] p-6 mb-8 w-full max-w-[360px] mx-auto animate-slide-up">
+            <div class="grid grid-cols-3 gap-y-6 gap-x-6 place-items-center">
+                
+                <button class="keypad-btn" onclick="pressKey(1)">
+                    <span class="key-num">1</span>
+                    <span class="key-letters">&nbsp;</span>
+                </button>
+                <button class="keypad-btn" onclick="pressKey(2)">
+                    <span class="key-num">2</span>
+                    <span class="key-letters">ABC</span>
+                </button>
+                <button class="keypad-btn" onclick="pressKey(3)">
+                    <span class="key-num">3</span>
+                    <span class="key-letters">DEF</span>
+                </button>
+
+                <button class="keypad-btn" onclick="pressKey(4)">
+                    <span class="key-num">4</span>
+                    <span class="key-letters">GHI</span>
+                </button>
+                <button class="keypad-btn" onclick="pressKey(5)">
+                    <span class="key-num">5</span>
+                    <span class="key-letters">JKL</span>
+                </button>
+                <button class="keypad-btn" onclick="pressKey(6)">
+                    <span class="key-num">6</span>
+                    <span class="key-letters">MNO</span>
+                </button>
+
+                <button class="keypad-btn" onclick="pressKey(7)">
+                    <span class="key-num">7</span>
+                    <span class="key-letters">PQRS</span>
+                </button>
+                <button class="keypad-btn" onclick="pressKey(8)">
+                    <span class="key-num">8</span>
+                    <span class="key-letters">TUV</span>
+                </button>
+                <button class="keypad-btn" onclick="pressKey(9)">
+                    <span class="key-num">9</span>
+                    <span class="key-letters">WXYZ</span>
+                </button>
+
+                <!-- 底部功能鍵 -->
+                <button class="keypad-btn transparent text-sm font-medium" style="font-size: 14px;">
+                    緊急服務
+                </button>
+                <button class="keypad-btn" onclick="pressKey(0)">
+                    <span class="key-num">0</span>
+                    <span class="key-letters">&nbsp;</span>
+                </button>
+                <button class="keypad-btn transparent" onclick="deleteKey()">
+                    <i class="fas fa-backspace text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPin = "";
+        const maxPinLength = 4;
+        const pinDots = document.querySelectorAll('.pin-dot');
+        const pinDisplay = document.getElementById('pin-display');
+
+        // 模擬觸覺與點擊效果
+        function pressKey(num) {
+            if (currentPin.length < maxPinLength) {
+                currentPin += num;
+                updateDisplay();
+                
+                // 模擬震動 (如果裝置支援)
+                if (navigator.vibrate) navigator.vibrate(10);
+            }
+
+            if (currentPin.length === maxPinLength) {
+                // 模擬驗證
+                setTimeout(() => {
+                    if (currentPin === "1234") { // 測試密碼
+                        successAnimation();
+                    } else {
+                        errorAnimation();
+                    }
+                }, 300);
+            }
+        }
+
+        function deleteKey() {
+            if (currentPin.length > 0) {
+                currentPin = currentPin.slice(0, -1);
+                updateDisplay();
+                if (navigator.vibrate) navigator.vibrate(10);
+            }
+        }
+
+        function updateDisplay() {
+            pinDots.forEach((dot, index) => {
+                if (index < currentPin.length) {
+                    dot.classList.add('filled');
+                } else {
+                    dot.classList.remove('filled');
+                }
+            });
+        }
+
+        function errorAnimation() {
+            // 讓整個顯示區震動
+            pinDisplay.classList.add('shake');
+            
+            // 顏色變紅提示錯誤
+            pinDots.forEach(dot => dot.style.borderColor = "#ff3b30");
+            pinDots.forEach(dot => dot.style.backgroundColor = currentPin.length > 0 ? "#ff3b30" : "transparent");
+
+            if (navigator.vibrate) navigator.vibrate([50, 50, 50]);
+
+            setTimeout(() => {
+                pinDisplay.classList.remove('shake');
+                currentPin = "";
+                updateDisplay();
+                // 重置樣式
+                pinDots.forEach(dot => {
+                    dot.style.borderColor = "rgba(255, 255, 255, 0.8)";
+                    dot.style.backgroundColor = "";
+                });
+            }, 500);
+        }
+
+        function successAnimation() {
+            pinDots.forEach(dot => {
+                dot.style.borderColor = "#34c759";
+                dot.style.backgroundColor = "#34c759";
+            });
+            setTimeout(() => {
+                alert("解鎖成功！");
+                currentPin = "";
+                updateDisplay();
+                pinDots.forEach(dot => {
+                    dot.style.borderColor = "rgba(255, 255, 255, 0.8)";
+                    dot.style.backgroundColor = "";
+                });
+            }, 300);
+        }
+
+        // 鍵盤支援
+        document.addEventListener('keydown', (e) => {
+            if (e.key >= '0' && e.key <= '9') {
+                // 找到對應的按鈕並觸發視覺效果
+                const buttons = document.querySelectorAll('.keypad-btn');
+                let targetBtn;
+                buttons.forEach(btn => {
+                    if(btn.innerText.includes(e.key)) targetBtn = btn;
+                });
+                
+                if(targetBtn) {
+                    targetBtn.classList.add('active');
+                    setTimeout(() => targetBtn.classList.remove('active'), 150);
+                }
+                pressKey(e.key);
+            } else if (e.key === 'Backspace') {
+                deleteKey();
+            }
+        });
+    </script>
+</body>
+</html>

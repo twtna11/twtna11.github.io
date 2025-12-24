@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5個區塊交錯淡入特效</title>
+    <style>
+        /* --- 全域設定 --- */
+        body {
+            font-family: "Microsoft JhengHei", "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            overflow-x: hidden; /* 防止動畫起始位置造成的水平捲軸 */
+            color: #333;
+        }
+
+        /* --- 版面配置 --- */
+        section {
+            min-height: 90vh; /* 每個區塊高度，確保需要捲動 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            min-height: 300px;
+        }
+
+        /* 響應式：手機版垂直排列 */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                text-align: center;
+            }
+            /* 手機版偶數區塊為了閱讀順序，可選擇反轉 column (選用) */
+            /* .container.reverse-layout { flex-direction: column-reverse; } */
+        }
+
+        .content { flex: 1; }
+        .content h2 { font-size: 2.5rem; margin-bottom: 0.5rem; color: #2c3e50; }
+        .content .subtitle { font-size: 1.2rem; color: #7f8c8d; margin-bottom: 1rem; font-weight: bold; }
+        .content p { line-height: 1.8; color: #555; font-size: 1.1rem; }
+
+        .image-box { flex: 1; }
+        .image-box img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            object-fit: cover;
+        }
+
+        /* --- 區塊背景色 (交錯顯示) --- */
+        #section1 { background-color: #e3f2fd; } /* 藍 */
+        #section2 { background-color: #fff3e0; } /* 橘 */
+        #section3 { background-color: #e8f5e9; } /* 綠 */
+        #section4 { background-color: #fce4ec; } /* 粉 */
+        #section5 { background-color: #f3e5f5; } /* 紫 */
+
+        /* --- 動畫關鍵樣式 --- */
+        
+        /* 基礎轉場設定 */
+        .hidden-left, .hidden-right {
+            opacity: 0;
+            transition: all 1s ease-out; /* 動畫時間 1秒 */
+            /* 讓這層容器做動畫，也可以避免文字圖片分開 */
+        }
+
+        /* 奇數：由左至右 (初始位置在左側 -100px) */
+        .hidden-left {
+            transform: translateX(-150px);
+        }
+
+        /* 偶數：由右至左 (初始位置在右側 100px) */
+        .hidden-right {
+            transform: translateX(150px);
+        }
+
+        /* 顯示狀態：歸位 */
+        .show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+
+    <section id="section1">
+        <div class="container hidden-left">
+            <div class="content">
+                <div class="subtitle">Section 01</div>
+                <h2>奇數區塊：左側進場</h2>
+                <p>這是網頁的第一個區塊。當頁面載入且此區塊超過 50% 可見時，它會從<strong>左邊</strong>滑入。<br>這裡使用了 CSS Transform 與 Intersection Observer API。</p>
+            </div>
+            <div class="image-box">
+                <img src="https://placehold.co/600x400/2196f3/ffffff?text=01+Left+To+Right" alt="Image 1">
+            </div>
+        </div>
+    </section>
+
+    <section id="section2">
+        <div class="container hidden-right">
+            <div class="image-box">
+                <img src="https://placehold.co/600x400/ff9800/ffffff?text=02+Right+To+Left" alt="Image 2">
+            </div>
+            <div class="content">
+                <div class="subtitle">Section 02</div>
+                <h2>偶數區塊：右側進場</h2>
+                <p>請向下捲動。當您看到這個橘色區塊的一半時，整個卡片會從<strong>右邊</strong>滑入。<br>這種左右交錯的動畫設計可以引導使用者的視線成「Z」字型閱讀。</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="section3">
+        <div class="container hidden-left">
+            <div class="content">
+                <div class="subtitle">Section 03</div>
+                <h2>奇數區塊：再次左側</h2>
+                <p>這是一個綠色的區塊。遵循奇數規則，它同樣是從<strong>左側</strong>進場。<br>設定 <code>threshold: 0.5</code> 確保使用者已經準備好閱讀內容時，動畫才開始播放。</p>
+            </div>
+            <div class="image-box">
+                <img src="https://placehold.co/600x400/4caf50/ffffff?text=03+Left+To+Right" alt="Image 3">
+            </div>
+        </div>
+    </section>
+
+    <section id="section4">
+        <div class="container hidden-right">
+            <div class="image-box">
+                <img src="https://placehold.co/600x400/e91e63/ffffff?text=04+Right+To+Left" alt="Image 4">
+            </div>
+            <div class="content">
+                <div class="subtitle">Section 04</div>
+                <h2>偶數區塊：再次右側</h2>
+                <p>粉紅色的區域代表第四個章節。它從<strong>右側</strong>滑入。<br>您可以嘗試快速上下滑動，觀察動畫觸發的時機點。</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="section5">
+        <div class="container hidden-left">
+            <div class="content">
+                <div class="subtitle">Section 05</div>
+                <h2>奇數區塊：最終章</h2>
+                <p>這是最後一個區塊。從<strong>左側</strong>淡出顯示。<br>透過簡單的 class 切換 (<code>hidden-left</code> / <code>hidden-right</code>)，我們可以輕鬆管理大量區塊的動畫方向。</p>
+            </div>
+            <div class="image-box">
+                <img src="https://placehold.co/600x400/9c27b0/ffffff?text=05+Left+To+Right" alt="Image 5">
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // 設定觀察器選項
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5 // 重要：必須看到 50% 才觸發
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    // 進入視窗 50% -> 顯示
+                    entry.target.classList.add('show');
+                } else {
+                    // 離開視窗 -> 移除 (讓動畫可以重複播放)
+                    // 如果希望動畫只播一次，請將下面這行刪除
+                    entry.target.classList.remove('show');
+                }
+            });
+        }, observerOptions);
+
+        // 選取所有需要動畫的元素
+        const animatedElements = document.querySelectorAll('.hidden-left, .hidden-right');
+        
+        // 開始監聽
+        animatedElements.forEach((el) => observer.observe(el));
+    </script>
+</body>
+</html>

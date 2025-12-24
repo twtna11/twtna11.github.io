@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS 霓虹燈文字效果範例2</title>
+    <style>
+        /* 基礎頁面設定 */
+        body {
+            background-color: #050505; /* 深色背景才能突顯發光效果 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #fff;
+        }
+
+        /* 霓虹燈文字核心樣式 */
+        .neon-text {
+            font-size: 5rem;
+            font-weight: bold;
+            color: #fff;
+            text-transform: uppercase;
+            /* 重點：多層 text-shadow 疊加 */
+            text-shadow: 
+                0 0 5px #fff,
+                0 0 8px #fff,
+                0 0 52px #0fa,
+                0 0 80px #0fa,
+                0 0 101px #0fa;
+            border: 4px solid #fff;
+            padding: 20px 40px;
+            border-radius: 15px;
+            /* 邊框也可以加上發光效果 (box-shadow) */
+            box-shadow: 
+                0 0 10px #fff,
+                inset 0 0 5px #fff,
+                0 0 20px #0fa,
+                inset 0 0 10px #0fa,
+                0 0 40px #0fa,
+                inset 0 0 20px #0fa;
+        }
+
+        /* 說明區塊樣式 */
+        .info-section {
+            margin-top: 50px;
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 800px;
+            line-height: 1.6;
+        }
+
+        code {
+            color: #0fa;
+            background: #222;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="neon-text">Neon Light</div>
+
+    <div class="info-section">
+        <h2>實作重點說明</h2>
+        <ul>
+            <li><strong>深色背景：</strong> 霓虹燈效果必須在黑色或極深色的背景下才能展現對比度。</li>
+            <li><strong>Text-Shadow 疊加：</strong> 這是最關鍵的技術。我們使用了多層 <code>text-shadow</code>：
+                <ul>
+                    <li>前幾層（較小半徑，白色）：模擬霓虹燈管中心最亮的白色芯部。</li>
+                    <li>後幾層（較大半徑，彩色）：模擬燈管向外擴散的彩色光暈（本例使用 <code>#0fa</code> 翠綠色）。</li>
+                </ul>
+            </li>
+            <li><strong>Box-Shadow：</strong> 同樣的邏輯應用在邊框上，使用 <code>inset</code> 關鍵字可以讓邊框內側也產生發光感。</li>
+            <li><strong>字體選擇：</strong> 建議使用較粗或具備現代感的無襯線字體（Sans-serif），效果會更像真實燈管。</li>
+        </ul>
+    </div>
+
+</body>
+</html>

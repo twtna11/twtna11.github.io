@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>捲動50%觸發淡入特效</title>
+    <style>
+        /* --- 基礎設定 --- */
+        body {
+            font-family: "Microsoft JhengHei", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            overflow-x: hidden;
+            color: #333;
+        }
+
+        /* --- 區塊通用樣式 --- */
+        section {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 1000px;
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            
+            /* 為了演示效果，確保 container 有足夠高度，這樣捲動 50% 比較明顯 */
+            min-height: 400px; 
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        .content { flex: 1; }
+        .content h2 { font-size: 2rem; margin-bottom: 1rem; color: #2c3e50; }
+        .content p { line-height: 1.6; color: #555; }
+
+        .image-box { flex: 1; }
+        .image-box img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        /* --- 背景色區分 --- */
+        #section1 { background-color: #e0f7fa; }
+        #section2 { background-color: #fff3e0; }
+        #section3 { background-color: #f3e5f5; }
+
+        /* --- 動畫關鍵樣式 --- */
+        
+        /* 隱藏狀態 */
+        .hidden-left {
+            opacity: 0;
+            transform: translateX(-100px);
+            transition: all 1s ease-out; /* 動畫持續 1 秒 */
+        }
+
+        .hidden-right {
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 1s ease-out; /* 動畫持續 1 秒 */
+        }
+
+        /* 顯示狀態 */
+        .show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+
+    <section id="section1">
+        <div class="container">
+            <div class="content">
+                <h2>01. 起始章節 (無動畫)</h2>
+                <p>請盡情向下滑動。接下來的區塊，必須等到你<strong>看到該區塊的一半以上</strong>時，才會觸發動畫。</p>
+            </div>
+            <div class="image-box">
+                <img src="https://placehold.co/600x400/007bff/ffffff?text=Start" alt="第一張圖片">
+            </div>
+        </div>
+    </section>
+
+    <section id="section2">
+        <div class="container hidden-left"> 
+            <div class="image-box">
+                <img src="https://placehold.co/600x400/ffc107/333333?text=Left+Fade" alt="第二張圖片">
+            </div>
+            <div class="content">
+                <h2>02. 左側進場</h2>
+                <p>現在你看到這個動畫了嗎？因為設定了 <code>threshold: 0.5</code>，所以必須等到這個白色卡片區塊至少有 <strong>50%</strong> 進入螢幕畫面後，才會從左邊滑入。</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="section3">
+        <div class="container hidden-right">
+            <div class="content">
+                <h2>03. 右側進場</h2>
+                <p>這是最後一個部分。同樣地，請觀察捲動條的位置。當這個區塊露出超過一半時，它才會從<strong>右邊</strong>滑入顯示。</p>
+            </div>
+            <div class="image-box">
+                <img src="https://placehold.co/600x400/e83e8c/ffffff?text=Right+Fade" alt="第三張圖片">
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // 設定 Intersection Observer 的選項
+        const observerOptions = {
+            root: null, // 使用視窗作為觀察基準
+            rootMargin: '0px',
+            threshold: 0.5 // 【關鍵修改】: 0.5 代表元素出現 50% 時才觸發 callback
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                // 當元素進入視窗且符合 threshold 比例時
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                    
+                    // (選用) 如果想要動畫只執行一次，顯示後就停止觀察，可以取消註解下面這行：
+                    // observer.unobserve(entry.target);
+                } 
+                else {
+                    // (選用) 如果希望捲回去時隱藏（重複播放動畫），保留這行
+                    // 如果希望動畫只播一次，請把下面這行註解掉
+                    // entry.target.classList.remove('show'); 
+                }
+            });
+        }, observerOptions); // 將選項傳入
+
+        const hiddenElements = document.querySelectorAll('.hidden-left, .hidden-right');
+        hiddenElements.forEach((el) => observer.observe(el));
+    </script>
+</body>
+</html>
