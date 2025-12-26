@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OX 井字棋遊戲</title>
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --x-color: #ff4d4d;
+            --o-color: #2ecc71;
+            --bg-color: #f5f6fa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: var(--bg-color);
+        }
+
+        h1 { color: #2f3640; margin-bottom: 10px; }
+
+        .status {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #353b48;
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 10px;
+            background-color: #dcdde1;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .cell {
+            width: 100px;
+            height: 100px;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+
+        .cell:hover { background-color: #f1f2f6; }
+        .cell.taken { cursor: not-allowed; }
+
+        .cell.x { color: var(--x-color); }
+        .cell.o { color: var(--o-color); }
+
+        .controls { margin-top: 30px; }
+
+        button {
+            padding: 10px 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: transform 0.1s, background-color 0.2s;
+        }
+
+        button:hover { background-color: #357abd; }
+        button:active { transform: scale(0.95); }
+
+        .winner-line { background-color: #f1c40f !important; color: white !important; }
+    </style>
+</head>
+<body>
+
+    <h1>OX 井字棋</h1>
+    <div class="status" id="status">輪到 X 玩家</div>
+    
+    <div class="board" id="board">
+        <div class="cell" data-index="0"></div>
+        <div class="cell" data-index="1"></div>
+        <div class="cell" data-index="2"></div>
+        <div class="cell" data-index="3"></div>
+        <div class="cell" data-index="4"></div>
+        <div class="cell" data-index="5"></div>
+        <div class="cell" data-index="6"></div>
+        <div class="cell" data-index="7"></div>
+        <div class="cell" data-index="8"></div>
+    </div>
+
+    <div class="controls">
+        <button onclick="resetGame()">重新開始</button>
+    </div>
+
+    <script>
+        const boardElement = document.getElementById('board');
+        const statusElement = document.getElementById('status');
+        const cells = document.querySelectorAll('.cell');
+        
+        let currentPlayer = 'X';
+        let gameState = ["", "", "", "", "", "", "", "", ""];
+        let gameActive = true;
+
+        const winningConditions = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8], // 橫向
+            [0, 3, 6], [1, 4, 7], [2, 5, 8], // 縱向
+            [0, 4, 8], [2, 4, 6]             // 斜向
+        ];
+
+        function handleCellClick(e) {
+            const clickedCell = e.target;
+            const clickedIndex = parseInt(clickedCell.getAttribute('data-index'));
+
+            if (gameState[clickedIndex] !== "" || !gameActive) return;
+
+            updateCell(clickedCell, clickedIndex);
+            checkResult();
+        }
+
+        function updateCell(cell, index) {
+            gameState[index] = currentPlayer;
+            cell.innerText = currentPlayer;
+            cell.classList.add(currentPlayer.toLowerCase(), 'taken');
+        }
+
+        function checkResult() {
+            let roundWon = false;
+            let winningCells = [];
+
+            for (let condition of winningConditions) {
+                const [a, b, c] = condition;
+                if (gameState[a] && gameState[a] === gameState[b] && gameState[a] === gameState[c]) {
+                    roundWon = true;
+                    winningCells = [a, b, c];
+                    break;
+                }
+            }
+
+            if (roundWon) {
+                statusElement.innerText = `恭喜！玩家 ${currentPlayer} 獲勝！`;
+                highlightWinner(winningCells);
+                gameActive = false;
+                return;
+            }
+
+            if (!gameState.includes("")) {
+                statusElement.innerText = "平手！";
+                gameActive = false;
+                return;
+            }
+
+            // 切換玩家
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+            statusElement.innerText = `輪到 ${currentPlayer} 玩家`;
+        }
+
+        function highlightWinner(indices) {
+            indices.forEach(index => {
+                cells[index].classList.add('winner-line');
+            });
+        }
+
+        function resetGame() {
+            currentPlayer = 'X';
+            gameState = ["", "", "", "", "", "", "", "", ""];
+            gameActive = true;
+            statusElement.innerText = `輪到 X 玩家`;
+            cells.forEach(cell => {
+                cell.innerText = "";
+                cell.className = 'cell';
+            });
+        }
+
+        cells.forEach(cell => cell.addEventListener('click', handleCellClick));
+    </script>
+</body>
+</html>
