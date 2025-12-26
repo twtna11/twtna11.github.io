@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>暗棋—雙人網路對戰版</title>
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+    <style>
+        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; background: #e0cda9; }
+        #menu { margin: 20px; padding: 15px; background: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        #status { margin: 10px; font-weight: bold; color: #5d4037; }
+        canvas { border: 5px solid #5d4037; background: #f3e5ab; cursor: pointer; max-width: 95vw; }
+        .controls { margin-top: 10px; }
+        input { padding: 5px; border: 1px solid #ccc; border-radius: 4px; }
+        button { padding: 5px 15px; cursor: pointer; background: #8d6e63; color: white; border: none; border-radius: 4px; }
+        button:hover { background: #7b5e57; }
+    </style>
+</head>
+<body>
+
+    <h2>暗棋-雙人網路對戰</h2>
+
+    <div id="menu">
+        <p>你的 ID: <span id="my-id">正在取得...</span></p>
+        <div class="controls">
+            <input type="text" id="peer-id" placeholder="輸入對手 ID">
+            <button onclick="connectToPeer()">連線對手</button>
+        </div>
+    </div>
+
+    <div id="status">等待連線中...</div>
+    <canvas id="gameBoard" width="320" height="640"></canvas>
+
+<script>
+    const canvas = document.getElementById('gameBoard');
+    const ctx = canvas.getContext('2d');
+    const statusEl = document.getElementById('status');
+    
+    // 遊戲參數
+    const ROWS = 8, COLS = 4;
+    const CELL_SIZE = 80;
+    const PIECE_RADIUS = 35;
+    
+    // 棋子等級 (越小越大)
+    const RANK = { '帥':1, '將':1, '仕':2, '士':2, '相':3, '象':3, '俥':4, '車':4, '傌':5, '馬':5, '炮':6, '包':6, '兵':7, '卒':7 };
+    const RED_PIECES = ['帥','仕','仕','相','相','俥','俥','傌','傌','炮','炮','兵','兵','兵','兵','兵'];
+    const BLACK_PIECES = ['將','士','士','象','象','車','車','馬','馬','包','包','卒','卒','卒','卒','卒'];
+
+    let board = [];
+    let selected = null;
+    let myColor = null; // 'red' or 'black'
+    let currentTurn = 'red'; // 紅色先手（第一位翻牌的人決定顏色）
+    let isHost = false;
+    let conn = null;
+    const peer = new Peer();
+
+    // 初始化 Peer
+    peer.on('open', id => {
+        document.getElementById('my-id').innerText = id;
+    });
+
+    peer.on('connection', c => {
+        if (conn) return; // 僅允許一人連線
+        conn = c;
+        isHost = true;
+        setupConn();
+        initGame();
+        sendGameState();
+    });
+
+    function connectToPeer() {
+        const id = document.getElementById('peer-id').value;
+        if (!id) return;
+        conn = peer.connect(id);
+        isHost = false;
+        setupConn();
+    }
+
+    function setupConn() {
+        conn.on('open', () => {
+            statusEl.innerText = "連線成功！等待對方翻牌...";
+            document.getElementById('menu').style.display = 'none';
+        });
+        conn.on('data', data => {
+            if (data.type === 'STATE') {
+                board = data.board;
+                currentTurn = data.turn;
+                myColor = data.yourColor;
+                statusEl.innerText = (currentTurn === myColor ? "輪到你了" : "對方思考中...");
+                draw();
+            }
+        });
+    }
+
+    // 遊戲邏輯
+    function initGame() {
+        const allPieces = [...RED_PIECES, ...BLACK_PIECES];
+        // 洗牌
+        for (let i = allPieces.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [allPieces[i], allPieces[j]] = [allPieces[j], allPieces[i]];
+        }
+        
+        board = [];
+        for (let r = 0; r < ROWS; r++) {
+            board[r] = [];
+            for (let c = 0; c < COLS; c++) {
+                const name = allPieces.pop();
+                board[r][c] = {
+                    name: name,
+                    color: RED_PIECES.includes(name) ? 'red' : 'black',
+                    isFlipped: false
+                };
+            }
+        }
+        draw();
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // 畫格子
+        for (let r = 0; r < ROWS; r++) {
+            for (let c = 0; c < COLS; c++) {
+                ctx.strokeStyle = "#5d4037";
+                ctx.strokeRect(c * CELL_SIZE, r * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+                
+                const piece = board[r][c];
+                if (!piece) continue;
+
+                const x = c * CELL_SIZE + CELL_SIZE/2;
+                const y = r * CELL_SIZE + CELL_SIZE/2;
+
+                // 畫棋子圓形
+                ctx.beginPath();
+                ctx.arc(x, y, PIECE_RADIUS, 0, Math.PI * 2);
+                ctx.fillStyle = piece.isFlipped ? "#fff" : "#d2b48c";
+                ctx.fill();
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = (selected && selected.r === r && selected.c === c) ? "blue" : "#5d4037";
+                ctx.stroke();
+
+                // 畫文字
+                if (piece.isFlipped) {
+                    ctx.fillStyle = piece.color;
+                    ctx.font = "bold 30px Arial";
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "middle";
+                    ctx.fillText(piece.name, x, y);
+                }
+            }
+        }
+    }
+
+    canvas.onclick = (e) => {
+        if (!conn || (myColor && currentTurn !== myColor)) return;
+
+        const rect = canvas.getBoundingClientRect();
+        const c = Math.floor((e.clientX - rect.left) / CELL_SIZE);
+        const r = Math.floor((e.clientY - rect.top) / CELL_SIZE);
+        const piece = board[r][c];
+
+        // 1. 翻牌
+        if (piece && !piece.isFlipped) {
+            piece.isFlipped = true;
+            if (!myColor) {
+                myColor = piece.color;
+                // 通知對手我是什麼顏色
+            }
+            endTurn();
+            return;
+        }
+
+        // 2. 選取/移動
+        if (selected) {
+            if (canMove(selected.r, selected.c, r, c)) {
+                board[r][c] = board[selected.r][selected.c];
+                board[selected.r][selected.c] = null;
+                selected = null;
+                endTurn();
+            } else {
+                selected = (piece && piece.color === myColor) ? {r, c} : null;
+            }
+        } else {
+            if (piece && piece.color === myColor && piece.isFlipped) {
+                selected = {r, c};
+            }
+        }
+        draw();
+    };
+
+    function canMove(r1, c1, r2, c2) {
+        const p1 = board[r1][c1];
+        const p2 = board[r2][c2];
+        const dist = Math.abs(r1 - r2) + Math.abs(c1 - c2);
+
+        // 炮的特殊跳吃規則
+        if (p1.name === '炮' || p1.name === '包') {
+            if (p2 && p2.color !== p1.color) {
+                let count = 0;
+                if (r1 === r2) {
+                    for (let i = Math.min(c1, c2) + 1; i < Math.max(c1, c2); i++) if (board[r1][i]) count++;
+                } else if (c1 === c2) {
+                    for (let i = Math.min(r1, r2) + 1; i < Math.max(r1, r2); i++) if (board[i][c1]) count++;
+                }
+                return count === 1; // 中間剛好隔一個棋子
+            }
+        }
+
+        // 一般移動與吃子
+        if (dist !== 1) return false;
+        if (!p2) return true; // 空位
+        if (p2.color === p1.color || !p2.isFlipped) return false;
+
+        // 吃子等級判斷
+        const r1Rank = RANK[p1.name];
+        const r2Rank = RANK[p2.name];
+
+        if (r1Rank === 1 && r2Rank === 7) return false; // 將不能吃兵
+        if (r1Rank === 7 && r2Rank === 1) return true;  // 兵可以吃將
+        return r1Rank <= r2Rank;
+    }
+
+    function endTurn() {
+        currentTurn = (currentTurn === 'red' ? 'black' : 'red');
+        sendGameState();
+        draw();
+    }
+
+    function sendGameState() {
+        if (!conn) return;
+        conn.send({
+            type: 'STATE',
+            board: board,
+            turn: currentTurn,
+            yourColor: myColor === 'red' ? 'black' : (myColor === 'black' ? 'red' : null)
+        });
+        statusEl.innerText = (currentTurn === myColor ? "輪到你了" : "對方思考中...");
+    }
+
+</script>
+</body>
+</html>
