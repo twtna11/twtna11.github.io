@@ -1,0 +1,28 @@
+body {
+    	background-color: #0d0d0d; /* 深色背景 */
+		}
+
+		.neon-text {
+    	font-family: 'Orbitron', sans-serif; /* 科技感字體 */
+    	font-size: 4rem;
+    	color: #fff; /*燈管中心通常是白色的亮光 */
+			text-shadow:
+					/* 白色內層：模擬燈管核心 */
+					0 0 7px #fff,
+					0 0 10px #fff,
+					0 0 21px #fff,
+					/* 彩色外層：模擬光暈擴散 (#0fa 為青綠色) */
+					0 0 40px #f09, 
+					0 0 80px #f09,
+					0 0 90px #f09,
+					0 0 100px #f09,
+					0 0 150px #f09;
+					/* 引用動畫：名稱 時間 次數 方向 */
+					animation: pulse 2s ease-in-out infinite alternate;   						
+			}
+      /* 1. 呼吸 (Pulse) */
+      @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+      }
+		}

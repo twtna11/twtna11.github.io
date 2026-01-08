@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   5個區塊交錯淡入特效
+  </title>
+  <link href="style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <section id="section1">
+   <div class="container hidden-left">
+    <div class="content">
+     <div class="subtitle">
+      Section 01
+     </div>
+     <h2>
+      奇數區塊：左側進場
+     </h2>
+     <p>
+      這是網頁的第一個區塊。當頁面載入且此區塊超過 50% 可見時，它會從
+      <strong>
+       左邊
+      </strong>
+      滑入。
+      <br/>
+      這裡使用了 CSS Transform 與 Intersection Observer API。
+     </p>
+    </div>
+    <div class="image-box">
+     <img alt="Image 1" src="https://placehold.co/600x400/2196f3/ffffff?text=01+Left+To+Right"/>
+    </div>
+   </div>
+  </section>
+  <section id="section2">
+   <div class="container hidden-right">
+    <div class="image-box">
+     <img alt="Image 2" src="https://placehold.co/600x400/ff9800/ffffff?text=02+Right+To+Left"/>
+    </div>
+    <div class="content">
+     <div class="subtitle">
+      Section 02
+     </div>
+     <h2>
+      偶數區塊：右側進場
+     </h2>
+     <p>
+      請向下捲動。當您看到這個橘色區塊的一半時，整個卡片會從
+      <strong>
+       右邊
+      </strong>
+      滑入。
+      <br/>
+      這種左右交錯的動畫設計可以引導使用者的視線成「Z」字型閱讀。
+     </p>
+    </div>
+   </div>
+  </section>
+  <section id="section3">
+   <div class="container hidden-left">
+    <div class="content">
+     <div class="subtitle">
+      Section 03
+     </div>
+     <h2>
+      奇數區塊：再次左側
+     </h2>
+     <p>
+      這是一個綠色的區塊。遵循奇數規則，它同樣是從
+      <strong>
+       左側
+      </strong>
+      進場。
+      <br/>
+      設定
+      <code>
+       threshold: 0.5
+      </code>
+      確保使用者已經準備好閱讀內容時，動畫才開始播放。
+     </p>
+    </div>
+    <div class="image-box">
+     <img alt="Image 3" src="https://placehold.co/600x400/4caf50/ffffff?text=03+Left+To+Right"/>
+    </div>
+   </div>
+  </section>
+  <section id="section4">
+   <div class="container hidden-right">
+    <div class="image-box">
+     <img alt="Image 4" src="https://placehold.co/600x400/e91e63/ffffff?text=04+Right+To+Left"/>
+    </div>
+    <div class="content">
+     <div class="subtitle">
+      Section 04
+     </div>
+     <h2>
+      偶數區塊：再次右側
+     </h2>
+     <p>
+      粉紅色的區域代表第四個章節。它從
+      <strong>
+       右側
+      </strong>
+      滑入。
+      <br/>
+      您可以嘗試快速上下滑動，觀察動畫觸發的時機點。
+     </p>
+    </div>
+   </div>
+  </section>
+  <section id="section5">
+   <div class="container hidden-left">
+    <div class="content">
+     <div class="subtitle">
+      Section 05
+     </div>
+     <h2>
+      奇數區塊：最終章
+     </h2>
+     <p>
+      這是最後一個區塊。從
+      <strong>
+       左側
+      </strong>
+      淡出顯示。
+      <br/>
+      透過簡單的 class 切換 (
+      <code>
+       hidden-left
+      </code>
+      /
+      <code>
+       hidden-right
+      </code>
+      )，我們可以輕鬆管理大量區塊的動畫方向。
+     </p>
+    </div>
+    <div class="image-box">
+     <img alt="Image 5" src="https://placehold.co/600x400/9c27b0/ffffff?text=05+Left+To+Right"/>
+    </div>
+   </div>
+  </section>
+  <script src="script.js">
+  </script>
+ </body>
+</html>

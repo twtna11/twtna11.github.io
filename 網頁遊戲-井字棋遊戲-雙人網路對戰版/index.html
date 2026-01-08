@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   OX 井字棋遊戲 - 網路對戰版
+  </title>
+  <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js">
+  </script>
+  <link href="style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <h1>
+   OX 井字棋遊戲 網路對戰
+  </h1>
+  <div class="setup-box" id="setup">
+   <div id="step1">
+    <button onclick="createRoom()">
+     建立房間 (我是房主)
+    </button>
+    <p>
+     或
+    </p>
+    <input id="join-id" placeholder="輸入朋友的 ID" type="text"/>
+    <button onclick="joinRoom()">
+     加入房間
+    </button>
+   </div>
+   <div id="step2" style="display:none;">
+    <p>
+     你的 ID:
+     <span id="peer-id-display">
+      正在取得...
+     </span>
+    </p>
+    <p>
+     請將此 ID 傳給朋友，等待連線...
+    </p>
+   </div>
+  </div>
+  <div class="status" id="status">
+   請先連線以開始遊戲
+  </div>
+  <div class="board" id="board">
+   <div class="cell" data-index="0">
+   </div>
+   <div class="cell" data-index="1">
+   </div>
+   <div class="cell" data-index="2">
+   </div>
+   <div class="cell" data-index="3">
+   </div>
+   <div class="cell" data-index="4">
+   </div>
+   <div class="cell" data-index="5">
+   </div>
+   <div class="cell" data-index="6">
+   </div>
+   <div class="cell" data-index="7">
+   </div>
+   <div class="cell" data-index="8">
+   </div>
+  </div>
+  <script src="script.js">
+  </script>
+ </body>
+</html>

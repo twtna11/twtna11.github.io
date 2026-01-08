@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   捲動50%觸發淡入特效
+  </title>
+  <link href="style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <section id="section1">
+   <div class="container">
+    <div class="content">
+     <h2>
+      01. 起始章節 (無動畫)
+     </h2>
+     <p>
+      請盡情向下滑動。接下來的區塊，必須等到你
+      <strong>
+       看到該區塊的一半以上
+      </strong>
+      時，才會觸發動畫。
+     </p>
+    </div>
+    <div class="image-box">
+     <img alt="第一張圖片" src="https://placehold.co/600x400/007bff/ffffff?text=Start"/>
+    </div>
+   </div>
+  </section>
+  <section id="section2">
+   <div class="container hidden-left">
+    <div class="image-box">
+     <img alt="第二張圖片" src="https://placehold.co/600x400/ffc107/333333?text=Left+Fade"/>
+    </div>
+    <div class="content">
+     <h2>
+      02. 左側進場
+     </h2>
+     <p>
+      現在你看到這個動畫了嗎？因為設定了
+      <code>
+       threshold: 0.5
+      </code>
+      ，所以必須等到這個白色卡片區塊至少有
+      <strong>
+       50%
+      </strong>
+      進入螢幕畫面後，才會從左邊滑入。
+     </p>
+    </div>
+   </div>
+  </section>
+  <section id="section3">
+   <div class="container hidden-right">
+    <div class="content">
+     <h2>
+      03. 右側進場
+     </h2>
+     <p>
+      這是最後一個部分。同樣地，請觀察捲動條的位置。當這個區塊露出超過一半時，它才會從
+      <strong>
+       右邊
+      </strong>
+      滑入顯示。
+     </p>
+    </div>
+    <div class="image-box">
+     <img alt="第三張圖片" src="https://placehold.co/600x400/e83e8c/ffffff?text=Right+Fade"/>
+    </div>
+   </div>
+  </section>
+  <script src="script.js">
+  </script>
+ </body>
+</html>

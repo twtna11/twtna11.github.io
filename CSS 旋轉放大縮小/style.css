@@ -1,0 +1,26 @@
+/* 定義進入和離開動畫的基礎過渡屬性 */
+        #content-box {
+            /* 讓所有的變換（scale, rotate, opacity）都在 1000ms 內平滑完成 */
+            transition: transform 1000ms ease-in-out, opacity 1000ms ease-in-out;
+            transform-origin: center center; /* 確保旋轉和縮放從中心點進行 */
+            cursor: pointer;
+        }
+
+        /* 初始狀態（離開或未進入）: 隱藏、縮小、旋轉 -180 度 */
+        .state-initial {
+            opacity: 0;
+            transform: scale(0.1) rotate(-180deg);
+        }
+
+        /* 進入狀態: 完全顯示、正常大小、無旋轉 */
+        .state-entered {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+        }
+
+        /* 離開狀態: 隱藏、縮小、旋轉 +180 度 (與進入方向相反) */
+        .state-exiting {
+            opacity: 0;
+            /* 讓它往相反方向旋轉離開 */
+            transform: scale(0.1) rotate(180deg);
+        }

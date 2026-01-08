@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   霓虹燈文字效果-修正版
+  </title>
+  <link href="style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <!-- 展示區域 -->
+  <div class="demo-area">
+   <div class="neon" id="neonText">
+    NEON
+   </div>
+  </div>
+  <!-- 右側控制面板 -->
+  <div class="controls">
+   <label for="colorPicker">
+    更換燈管顏色
+   </label>
+   <input id="colorPicker" type="color" value="#ff00de"/>
+  </div>
+  <!-- 教學說明區域 -->
+  <div class="tutorial-section">
+   <h2>
+    霓虹燈文字：色彩與物理原理
+   </h2>
+   <div class="concept-card">
+    <h3>
+     觀念一：光的物理性 (Core Brightness)
+    </h3>
+    <p>
+     為什麼文字本體是白色的？在現實世界中，霓虹燈管中心的氣體發光亮度最高，相機拍攝時會呈現
+     <strong>
+      過曝 (Overexposure)
+     </strong>
+     的白色。
+    </p>
+    <p>
+     <strong>
+      程式碼對應：
+     </strong>
+     <code>
+      color: #fff;
+     </code>
+     和前兩層陰影
+     <code>
+      0 0 5px #fff
+     </code>
+     。
+    </p>
+   </div>
+   <div class="concept-card">
+    <h3>
+     觀念二：光暈擴散 (Light Diffusion)
+    </h3>
+    <p>
+     光線穿過空氣會散射。離光源越遠，光線越弱、邊緣越模糊，但顏色飽和度會顯現出來。
+    </p>
+    <p>
+     <strong>
+      程式碼對應：
+     </strong>
+     使用多層次
+     <code>
+      text-shadow
+     </code>
+     堆疊。內層銳利明亮，外層 (如
+     <code>
+      0 0 80px
+     </code>
+     ) 模糊且帶有顏色。
+    </p>
+   </div>
+   <div class="concept-card">
+    <h3>
+     觀念三：對比度 (Contrast)
+    </h3>
+    <p>
+     發光效果必須建立在黑暗背景上。若背景全白，光暈將無法顯現。
+    </p>
+    <p>
+     <strong>
+      程式碼對應：
+     </strong>
+     <code>
+      body { background-color: #111; }
+     </code>
+    </p>
+   </div>
+  </div>
+  <script src="script.js">
+  </script>
+ </body>
+</html>

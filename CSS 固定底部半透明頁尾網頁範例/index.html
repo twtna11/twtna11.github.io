@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   固定底部半透明頁尾網頁範例
+  </title>
+  <link href="style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <div class="content">
+   <h1>
+    網頁主內容
+   </h1>
+   <p>
+    此區塊為網頁的主要內容。您可以上下捲動頁面來測試頁尾的固定效果。
+   </p>
+   <div class="long-text">
+    <h2>
+     示範長內容
+    </h2>
+    <p>
+     這是一段很長的文字，目的是確保頁面可以捲動，這樣才能測試固定頁尾的效果。固定頁尾使用了
+     <code>
+      position: fixed;
+     </code>
+     屬性，並設定
+     <code>
+      bottom: 0;
+     </code>
+     和
+     <code>
+      width: 100%;
+     </code>
+     ，使其在捲動時仍然保持在螢幕底部。
+    </p>
+    <p>
+     半透明效果是透過 CSS 的
+     <code>
+      background-color: rgba(R, G, B, A);
+     </code>
+     語法實現的，其中 A（Alpha）值控制透明度（0.0 為完全透明，1.0 為完全不透明）。在這個範例中，我們使用了
+     <code>
+      rgba(51, 51, 51, 0.85)
+     </code>
+     ，這是一個略微透明的深灰色。
+    </p>
+    <p>
+     為了防止內容被固定頁尾遮擋，我們在
+     <code>
+      .content
+     </code>
+     區塊設定了一個與頁尾高度相同的底部內邊距（
+     <code>
+      padding-bottom: 60px;
+     </code>
+     ）。
+    </p>
+    <p>
+     內容不斷增加，持續延伸，直到網頁產生捲軸，讓您能清楚觀察頁尾始終貼齊螢幕底部的行為。
+    </p>
+    <p>
+     請記得將頁尾的
+     <code>
+      src="./placeholder.png"
+     </code>
+     替換為您的實際圖片檔案路徑。
+    </p>
+    <p>
+     聯絡資訊文字和圖片都透過 Flexbox 在頁尾中實現了良好的置中對齊。
+    </p>
+    <p>
+     這是長內容的底部... 再往下捲動也看不到頁尾消失。
+    </p>
+   </div>
+  </div>
+  <footer class="footer">
+   <div class="footer-content">
+    <span class="contact-info">
+     © 2025 範例網站 | 電話: (02) 1234-5678 | Email: contact@example.com
+    </span>
+    <img alt="網站小圖示" class="footer-logo" src="https://via.placeholder.com/40x40?text=LOGO"/>
+   </div>
+  </footer>
+ </body>
+</html>

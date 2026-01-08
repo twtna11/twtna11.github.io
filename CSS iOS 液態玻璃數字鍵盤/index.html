@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+  <title>
+   iOS 液態玻璃數字鍵盤
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+  <link href="style.css" rel="stylesheet"/>
+ </head>
+ <body class="flex items-center justify-center">
+  <!-- 動態背景 -->
+  <div class="ambient-light">
+   <div class="blob blob-1">
+   </div>
+   <div class="blob blob-2">
+   </div>
+   <div class="blob blob-3">
+   </div>
+  </div>
+  <!-- 主介面容器 -->
+  <div class="relative w-full h-full max-w-md mx-auto flex flex-col justify-between p-6">
+   <!-- 頂部狀態列與提示 -->
+   <div class="flex flex-col items-center mt-12 space-y-8 animate-fade-in-down">
+    <div class="flex flex-col items-center">
+     <i class="fas fa-lock text-white/50 text-2xl mb-4">
+     </i>
+     <h1 class="text-xl font-medium tracking-wide text-white/90">
+      輸入密碼
+     </h1>
+    </div>
+    <!-- PIN 碼顯示點 -->
+    <div class="flex space-x-6" id="pin-display">
+     <div class="pin-dot">
+     </div>
+     <div class="pin-dot">
+     </div>
+     <div class="pin-dot">
+     </div>
+     <div class="pin-dot">
+     </div>
+    </div>
+   </div>
+   <!-- 數字鍵盤 -->
+   <div class="glass-container rounded-[2.5rem] p-6 mb-8 w-full max-w-[360px] mx-auto animate-slide-up">
+    <div class="grid grid-cols-3 gap-y-6 gap-x-6 place-items-center">
+     <button class="keypad-btn" onclick="pressKey(1)">
+      <span class="key-num">
+       1
+      </span>
+      <span class="key-letters">
+      </span>
+     </button>
+     <button class="keypad-btn" onclick="pressKey(2)">
+      <span class="key-num">
+       2
+      </span>
+      <span class="key-letters">
+       ABC
+      </span>
+     </button>
+     <button class="keypad-btn" onclick="pressKey(3)">
+      <span class="key-num">
+       3
+      </span>
+      <span class="key-letters">
+       DEF
+      </span>
+     </button>
+     <button class="keypad-btn" onclick="pressKey(4)">
+      <span class="key-num">
+       4
+      </span>
+      <span class="key-letters">
+       GHI
+      </span>
+     </button>
+     <button class="keypad-btn" onclick="pressKey(5)">
+      <span class="key-num">
+       5
+      </span>
+      <span class="key-letters">
+       JKL
+      </span>
+     </button>
+     <button class="keypad-btn" onclick="pressKey(6)">
+      <span class="key-num">
+       6
+      </span>
+      <span class="key-letters">
+       MNO
+      </span>
+     </button>
+     <button class="keypad-btn" onclick="pressKey(7)">
+      <span class="key-num">
+       7
+      </span>
+      <span class="key-letters">
+       PQRS
+      </span>
+     </button>
+     <button class="keypad-btn" onclick="pressKey(8)">
+      <span class="key-num">
+       8
+      </span>
+      <span class="key-letters">
+       TUV
+      </span>
+     </button>
+     <button class="keypad-btn" onclick="pressKey(9)">
+      <span class="key-num">
+       9
+      </span>
+      <span class="key-letters">
+       WXYZ
+      </span>
+     </button>
+     <!-- 底部功能鍵 -->
+     <button class="keypad-btn transparent text-sm font-medium" style="font-size: 14px;">
+      緊急服務
+     </button>
+     <button class="keypad-btn" onclick="pressKey(0)">
+      <span class="key-num">
+       0
+      </span>
+      <span class="key-letters">
+      </span>
+     </button>
+     <button class="keypad-btn transparent" onclick="deleteKey()">
+      <i class="fas fa-backspace text-xl">
+      </i>
+     </button>
+    </div>
+   </div>
+  </div>
+  <script src="script.js">
+  </script>
+ </body>
+</html>

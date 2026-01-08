@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   CSS 霓虹燈文字效果範例2
+  </title>
+  <link href="style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <div class="neon-text">
+   Neon Light
+  </div>
+  <div class="info-section">
+   <h2>
+    實作重點說明
+   </h2>
+   <ul>
+    <li>
+     <strong>
+      深色背景：
+     </strong>
+     霓虹燈效果必須在黑色或極深色的背景下才能展現對比度。
+    </li>
+    <li>
+     <strong>
+      Text-Shadow 疊加：
+     </strong>
+     這是最關鍵的技術。我們使用了多層
+     <code>
+      text-shadow
+     </code>
+     ：
+     <ul>
+      <li>
+       前幾層（較小半徑，白色）：模擬霓虹燈管中心最亮的白色芯部。
+      </li>
+      <li>
+       後幾層（較大半徑，彩色）：模擬燈管向外擴散的彩色光暈（本例使用
+       <code>
+        #0fa
+       </code>
+       翠綠色）。
+      </li>
+     </ul>
+    </li>
+    <li>
+     <strong>
+      Box-Shadow：
+     </strong>
+     同樣的邏輯應用在邊框上，使用
+     <code>
+      inset
+     </code>
+     關鍵字可以讓邊框內側也產生發光感。
+    </li>
+    <li>
+     <strong>
+      字體選擇：
+     </strong>
+     建議使用較粗或具備現代感的無襯線字體（Sans-serif），效果會更像真實燈管。
+    </li>
+   </ul>
+  </div>
+ </body>
+</html>

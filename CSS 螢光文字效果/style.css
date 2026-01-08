@@ -1,0 +1,94 @@
+/* 基礎設定：背景必須是深色，螢光效果才明顯 */
+        body {
+            background-color: #0d0d0d; /*以此深灰色接近黑色為主*/
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Helvetica Neue', sans-serif;
+        }
+
+        /* 通用文字樣式 */
+        h1 {
+            font-size: 4rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin: 20px;
+            font-weight: 100;
+            border: 4px solid; /* 加上邊框讓它看起來像招牌 */
+            padding: 20px 40px;
+            border-radius: 10px;
+        }
+
+        /* --- 效果 1: 藍色呼吸燈效果 --- */
+        .neon-blue {
+            color: #fff;
+            border-color: #fff;
+            /* text-shadow 是關鍵：
+               由內而外堆疊多層陰影，模糊半徑(第三個數值)逐漸加大 
+            */
+            text-shadow:
+                0 0 7px #fff,
+                0 0 10px #fff,
+                0 0 21px #fff,
+                0 0 42px #0fa,
+                0 0 82px #0fa,
+                0 0 92px #0fa,
+                0 0 102px #0fa,
+                0 0 151px #0fa;
+            /* 同步讓邊框也發光 */
+            box-shadow:
+                0 0 7px #fff,
+                0 0 10px #fff,
+                0 0 21px #fff,
+                0 0 42px #0fa,
+                0 0 82px #0fa;
+            
+            animation: pulsate 1.5s infinite alternate;     
+        }
+
+        /* --- 效果 2: 粉色閃爍效果 --- */
+        .neon-pink {
+            color: #fff;
+            border-color: #fff;
+            text-shadow:
+                0 0 7px #fff,
+                0 0 10px #fff,
+                0 0 21px #fff,
+                0 0 42px #f09,
+                0 0 82px #f09,
+                0 0 92px #f09,
+                0 0 102px #f09,
+                0 0 151px #f09;
+            box-shadow:
+                0 0 7px #fff,
+                0 0 10px #fff,
+                0 0 21px #fff,
+                0 0 42px #f09,
+                0 0 82px #f09;
+            
+            animation: flicker 2s infinite alternate;
+        }
+
+        /* --- 動畫定義 --- */
+
+        /* 呼吸燈動畫：稍微改變亮度 */
+        @keyframes pulsate {
+            0% { opacity: 1; }
+            50% { opacity: 0.9; }
+            100% { opacity: 1; text-shadow: 0 0 4px #fff, 0 0 10px #fff, 0 0 18px #fff, 0 0 38px #0fa, 0 0 73px #0fa, 0 0 80px #0fa, 0 0 94px #0fa, 0 0 140px #0fa; }
+        }
+
+        /* 閃爍動畫：模擬接觸不良 */
+        @keyframes flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% {
+                opacity: 1;
+            }
+            20%, 24%, 55% {
+                opacity: 0.5; /* 瞬間變暗 */
+                text-shadow: none; /* 瞬間移除光暈 */
+                box-shadow: none;
+            }
+        }

@@ -1,0 +1,63 @@
+body {
+            background-color: #1a1a1a;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            perspective: 1000px; /* 1. 設定觀察者的距離，產生透視感 */
+        }
+
+        /* 3D 卡片容器 */
+        .card-3d {
+            width: 300px;
+            height: 400px;
+            position: relative;
+            transform-style: preserve-3d; /* 2. 核心：讓子元素在 3D 空間中呈現 */
+            transition: transform 1.5s ease-in-out;
+            cursor: pointer;
+            /* 自動循環旋轉動畫 */
+            animation: autoRotate 8s linear infinite;
+        }
+
+        /* 滑鼠懸停時暫停並放大 */
+        .card-3d:hover {
+            animation-play-state: paused;
+            transform: rotateY(180deg) scale(1.1);
+        }
+
+        /* 定義正反面共同樣式 */
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden; /* 3. 隱藏背面，旋轉到背面時看不到正面文字 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 20px;
+            font-family: Arial, sans-serif;
+            font-size: 1.5rem;
+            color: white;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+
+        /* 正面樣式 */
+        .card-front {
+            background: linear-gradient(45deg, #ff512f, #dd2476);
+        }
+
+        /* 背面樣式 */
+        .card-back {
+            background: linear-gradient(45deg, #2193b0, #6dd5ed);
+            transform: rotateY(180deg); /* 初始就先轉 180 度 */
+        }
+
+        /* 3D 旋轉關鍵影格 */
+        @keyframes autoRotate {
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(360deg); }
+        }
+
+        h2, p { margin: 10px; }

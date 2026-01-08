@@ -1,0 +1,87 @@
+body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+
+        h1 {
+            position: absolute;
+            top: 20px;
+            color: #333;
+        }
+
+        /* ------------------------------------------- */
+        /* 核心：3D 卡片容器 */
+        /* ------------------------------------------- */
+
+        /* 1. 設定 3D 視角 (Perspective) */
+        /* 這是建立 3D 空間深度的關鍵。數值越小，透視感越強。 */
+        .flip-card {
+            background-color: transparent;
+            width: 300px;
+            height: 400px;
+            perspective: 1000px; /* 定義卡片容器的 3D 視角 */
+        }
+
+        /* 2. 卡片內部 (Flipping Logic) */
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s; /* 定義翻轉動畫的時長 */
+            
+            /* 關鍵：保持 3D 空間 */
+            /* 讓子元素（正面和反面）能被視為在 3D 空間中 */
+            transform-style: preserve-3d;
+        }
+
+        /* 3. 懸停觸發翻轉 */
+        .flip-card:hover .flip-card-inner {
+            /* 讓整個內部容器繞 Y 軸旋轉 180 度 */
+            transform: rotateY(180deg);
+        }
+
+        /* 4. 卡片正面與反面 */
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            
+            /* 關鍵：隱藏背面 */
+            /* 確保只有卡片朝前的一面是可見的 */
+            backface-visibility: hidden;
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* 正面樣式 */
+        .flip-card-front {
+            background-color: #3498db; /* 藍色 */
+            color: white;
+            font-size: 24px;
+        }
+
+        /* 反面樣式 */
+        .flip-card-back {
+            background-color: #e74c3c; /* 紅色 */
+            color: white;
+            font-size: 18px;
+            
+            /* 關鍵：初始設定反面旋轉 180 度 */
+            /* 這樣當內部容器不旋轉時，反面是朝後的；
+               當內部容器旋轉 180 度時，反面就轉向正面了。 */
+            transform: rotateY(180deg);
+        }

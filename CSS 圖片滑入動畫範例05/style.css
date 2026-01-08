@@ -1,0 +1,73 @@
+body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background-color: #0056b3;
+            color: white;
+            padding: 100px 20px; /* 增加頂部高度以確保需要捲動 */
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        .content-block {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .content-block p {
+            text-align: center;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .image-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            gap: 20px; /* 圖片間距 */
+            padding: 10px 0;
+        }
+
+        .image-container img {
+            width: 48%; /* 讓兩張圖片並排 */
+            height: auto;
+            border-radius: 6px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* 圖片的初始狀態 (動畫開始前) */
+        .scroll-fade {
+            opacity: 0; /* 初始透明度為 0 (隱藏) */
+            /* 動畫過渡效果：1秒的透明度變化和位移變化 */
+            transition: opacity 1s ease-out, transform 1s ease-out; 
+        }
+
+        /* 左側圖片的初始位移：向左移 50px */
+        .fade-left {
+            transform: translateX(-50px);
+        }
+
+        /* 右側圖片的初始位移：向右移 50px */
+        .fade-right {
+            transform: translateX(50px);
+        }
+
+        /* 圖片進入視窗後的最終狀態 (動畫結束後) */
+        .scroll-fade.visible {
+            opacity: 1; /* 最終透明度為 1 (完全顯示) */
+            transform: translateX(0); /* 位移歸零 (回到原位) */
+        }

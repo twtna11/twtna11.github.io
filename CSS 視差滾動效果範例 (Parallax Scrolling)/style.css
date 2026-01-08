@@ -1,0 +1,172 @@
+/* CSS Reset & Basic Setup */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #fff;
+            overflow-x: hidden; /* 防止水平滾動 */
+        }
+
+        /* Parallax Container 
+           這是視差效果的主要舞台，設為 100vh 佔滿整個視窗
+        */
+        .parallax-section {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to bottom, #2b1055, #7597de); /* 天空漸層 */
+        }
+
+        /* 共用圖層樣式
+           所有視差元素都絕對定位，以便重疊
+        */
+        .layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* 讓點擊穿透圖層 */
+            will-change: transform; /* 效能優化 */
+        }
+
+        /* 星星圖層 (透過 JS 生成或 CSS 背景) */
+        #stars {
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 160px 120px, #ddd, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            opacity: 0.8;
+            z-index: 1;
+        }
+
+        /* 月亮 */
+        #moon {
+            position: absolute;
+            top: 100px; /* 初始位置 */
+            right: 100px; /* 初始位置 */
+            width: 100px;
+            height: 100px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 40px 10px rgba(255, 255, 255, 0.7);
+            z-index: 2;
+            /* 覆蓋 .layer 的設定，因為月亮不需要滿版 */
+            left: auto; 
+            bottom: auto;
+        }
+
+        /* 後方山脈 (SVG) */
+        #mountains_behind {
+            z-index: 3;
+            bottom: -50px; /* 稍微往下藏一點，避免滾動過快露出底部 */
+            top: auto;
+        }
+        
+        #mountains_behind svg {
+            width: 100%;
+            height: 100%;
+            fill: #2d112b; /* 深紫色 */
+            opacity: 0.8;
+        }
+
+        /* 主要標題 */
+        #text {
+            position: absolute;
+            color: #fff;
+            font-size: 5rem;
+            font-weight: 900;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 4;
+            white-space: nowrap;
+        }
+
+        /* 前方山脈 (SVG) */
+        #mountains_front {
+            z-index: 5;
+            top: auto;
+            bottom: 0;
+        }
+
+        #mountains_front svg {
+            width: 100%;
+            height: auto; /* 保持比例 */
+            min-height: 40vh; /* 確保高度 */
+            fill: #1c0522; /* 更深的紫色/黑色 */
+            position: absolute;
+            bottom: 0;
+        }
+
+        /* Content Section 
+           正常的網頁內容區塊
+        */
+        .content {
+            position: relative;
+            background: #1c0522; /* 接續前方山脈的顏色 */
+            padding: 100px 10%;
+            z-index: 10; /* 確保內容蓋過視差圖層 */
+            min-height: 100vh;
+        }
+
+        .content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #bfaaff;
+        }
+
+        .content p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            color: #e0d4ff;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-10px);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            #text {
+                font-size: 3rem;
+            }
+            #moon {
+                width: 60px;
+                height: 60px;
+                top: 80px;
+                right: 40px;
+            }
+            .content {
+                padding: 50px 20px;
+            }
+        }

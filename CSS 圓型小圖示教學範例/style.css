@@ -1,0 +1,20 @@
+.widget {
+            /* 設定圖示的大小與外觀 */
+            width: 60px;
+            height: 60px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 50%; /* 變成圓形 */
+            display: flex;
+            justify-content: center; /* 水平置中 */
+            align-items: center;     /* 垂直置中 */
+            font-size: 24px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3); /* 加點陰影更有立體感 */
+            cursor: pointer;
+            transition: transform 0.2s; /* 增加一點互動動畫 */
+        }
+
+        .widget:hover {
+            transform: scale(1.1); /* 滑鼠移過去稍微放大 */
+            background-color: #2980b9;
+        }

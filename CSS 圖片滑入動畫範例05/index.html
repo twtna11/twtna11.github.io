@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   合併後的捲動淡出動畫範例
+  </title>
+  <link href="style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <header>
+   <h1>
+    捲動淡出動畫範例網頁（單一檔案）
+   </h1>
+   <p>
+    請向下捲動以觀看內容動畫。所有資源都已合併於此檔案。
+   </p>
+  </header>
+  <section class="content-block">
+   <p>
+    這是第一個段落的文字內容。左右圖片將分別由左至右和由右至左淡入。
+   </p>
+   <div class="image-container">
+    <img alt="左側圖片 1" class="scroll-fade fade-left" src="https://picsum.photos/id/684/400/300"/>
+    <img alt="右側圖片 1" class="scroll-fade fade-right" src="https://picsum.photos/id/30/400/300"/>
+   </div>
+  </section>
+  <section class="content-block">
+   <p>
+    這是第二個段落的文字內容。捲動到這裡時，動畫會自動觸發。
+   </p>
+   <div class="image-container">
+    <img alt="左側圖片 2" class="scroll-fade fade-left" src="https://picsum.photos/id/40/400/300"/>
+    <img alt="右側圖片 2" class="scroll-fade fade-right" src="https://picsum.photos/id/520/400/300"/>
+   </div>
+  </section>
+  <section class="content-block">
+   <p>
+    這是第三個段落的文字內容。這個效果使用 Intersection Observer API 實現，效能良好。
+   </p>
+   <div class="image-container">
+    <img alt="左側圖片 3" class="scroll-fade fade-left" src="https://picsum.photos/id/90/400/300"/>
+    <img alt="右側圖片 3" class="scroll-fade fade-right" src="https://picsum.photos/id/684/400/300"/>
+   </div>
+  </section>
+  <footer style="height: 30vh; text-align: center; padding-top: 50px;">
+   頁面底部結束。
+  </footer>
+  <script src="script.js">
+  </script>
+ </body>
+</html>

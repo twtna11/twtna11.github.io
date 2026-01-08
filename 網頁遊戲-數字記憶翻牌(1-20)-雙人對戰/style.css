@@ -1,0 +1,190 @@
+/* 定義全域變數，確保顏色一致性 */
+        :root {
+            --card-width: 80px;
+            --card-height: 110px;
+            --gap: 10px;
+            
+            /* 顏色定義 */
+            --blue-color: #2196F3;       /* 藍方統一色碼 */
+            --blue-bg: rgba(33, 150, 243, 0.1);
+            
+            --red-color: #F44336;        /* 紅方統一色碼 */
+            --red-bg: rgba(244, 67, 54, 0.1);
+            
+            --gray-bg: #f0f2f5;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: var(--gray-bg);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        /* 比分板區域 */
+        .score-board {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .player-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            opacity: 0.4; /* 非回合玩家淡化 */
+            border: 3px solid transparent;
+        }
+
+        .player-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .player-score {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        /* 藍方樣式 (使用變數) */
+        .panel-blue {
+            color: var(--blue-color);
+        }
+        .panel-blue.active {
+            opacity: 1;
+            background-color: var(--blue-bg);
+            border-color: var(--blue-color);
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(33, 150, 243, 0.3);
+        }
+
+        /* 紅方樣式 (使用變數) */
+        .panel-red {
+            color: var(--red-color);
+        }
+        .panel-red.active {
+            opacity: 1;
+            background-color: var(--red-bg);
+            border-color: var(--red-color);
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(244, 67, 54, 0.3);
+        }
+
+        /* 按鈕樣式 */
+        .controls {
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 24px;
+            font-size: 1rem;
+            cursor: pointer;
+            background-color: #607d8b;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            transition: background 0.3s;
+            font-weight: bold;
+        }
+        button:hover { background-color: #546e7a; }
+
+        /* 遊戲區域：4列 x 10行 */
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: var(--gap);
+            perspective: 1000px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .card {
+            width: var(--card-width);
+            height: var(--card-height);
+            position: relative;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+
+        /* 翻牌狀態 */
+        .card.flip { transform: rotateY(180deg); }
+        
+        /* 修正後的消失邏輯：
+           1. 直接操作 opacity，不使用 visibility 延遲。
+           2. pointer-events: none 確保消失後無法被點擊。
+        */
+        .card.hidden {
+            opacity: 0; 
+            pointer-events: none;
+            transition: opacity 0.5s ease; /* 父層統一過渡，確保子元素同步 */
+        }
+
+        /* 確保消失時移除陰影，避免殘留視覺干擾 */
+        .card.hidden .card-front,
+        .card.hidden .card-back {
+            box-shadow: none;
+            border-color: transparent;
+        }
+
+        .card-front, .card-back {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+            user-select: none;
+        }
+
+        .card-front {
+            background-color: white;
+            color: #333;
+            font-size: 2rem;
+            font-weight: bold;
+            transform: rotateY(180deg);
+            border: 2px solid #ddd;
+        }
+
+        .card-back {
+            /* 保持中性顏色，避免偏向紅或藍 */
+            background: linear-gradient(135deg, #2c3e50 0%, #4ca1af 100%);
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        /* 響應式調整 */
+        @media (max-width: 950px) {
+            :root {
+                --card-width: 50px;
+                --card-height: 70px;
+                --gap: 5px;
+            }
+            .card-front { font-size: 1.5rem; }
+            .score-board { margin-bottom: 10px; padding: 10px; }
+            .player-name { font-size: 1rem; }
+            .player-score { font-size: 1.5rem; }
+        }

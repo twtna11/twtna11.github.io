@@ -1,0 +1,84 @@
+/* * 1. 定義全域變數 (CSS Variables)
+   * 這些是預設的「淺色模式」顏色
+   */
+:root {
+    --bg-color: #f0f4f8;       /* 背景色：淺灰白 */
+    --text-color: #333333;     /* 文字色：深灰 */
+    --card-bg: #ffffff;        /* 卡片背景：純白 */
+    --btn-bg: #3b82f6;         /* 按鈕背景：藍色 */
+    --btn-text: #ffffff;       /* 按鈕文字：白色 */
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 陰影 */
+}
+
+/* * 2. 定義「深色模式」下的變數覆蓋 
+   * 當 body 標籤擁有 "dark-mode" 這個 class 時，變數會變成以下的值
+   */
+body.dark-mode {
+    --bg-color: #121212;       /* 背景色：極深灰 */
+    --text-color: #e0e0e0;     /* 文字色：淺灰 */
+    --card-bg: #1e1e1e;        /* 卡片背景：深灰 */
+    --btn-bg: #fbbf24;         /* 按鈕背景：琥珀黃 (對比色) */
+    --btn-text: #121212;       /* 按鈕文字：深色 */
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.5); /* 陰影加深 */
+}
+
+/* 基礎排版設定 (Flexbox 置中) */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    
+    /* * 3. 關鍵轉場效果 (Transition) 
+       * 讓顏色切換時有平滑的過渡，而不是瞬間跳轉
+       */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* 卡片容器樣式 */
+.container {
+    background-color: var(--card-bg);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    max-width: 400px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+h1 {
+    margin-top: 0;
+}
+
+p {
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+/* 按鈕樣式 */
+.toggle-btn {
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.1s, background-color 0.3s ease, color 0.3s ease;
+}
+
+.toggle-btn:active {
+    transform: scale(0.95); /* 點擊時的小縮放效果 */
+}
+
+/* 表情符號的樣式 */
+.icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    display: block;
+}

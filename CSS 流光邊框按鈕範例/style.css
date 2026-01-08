@@ -1,0 +1,97 @@
+/* 1. 定義核心變數：讓瀏覽器知道這是一個「角度」，所以可以運算轉動 */
+        @property --angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        body {
+            background-color: #111; /* 深色背景更能突顯光效 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: sans-serif;
+        }
+
+        /* 按鈕本體設定 */
+        .glow-btn {
+            /* 變數設定 */
+            --border-size: 3px;         /* 邊框粗細 */
+            --glow-color: #00d2ff;      /* 主色調：青色 */
+            --glow-color-2: #ff0055;    /* 副色調：紅色 */
+            
+            position: relative;
+            background: #222;           /* 按鈕中間的背景色 (用來遮擋) */
+            color: white;
+            padding: 1rem 3rem;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            z-index: 1;                 /* 確保文字層級最高 */
+            overflow: hidden;           /* 隱藏超出的模糊光暈 (可選) */
+            transition: 0.3s;
+        }
+
+        /* 2. 製作旋轉的彩色背景層 (模擬邊框) */
+        .glow-btn::before {
+            content: '';
+            position: absolute;
+            /* 讓偽元素比按鈕本體大一點點，露出的部分就是邊框 */
+            inset: calc(var(--border-size) * -1); 
+            z-index: -1;                /* 放在按鈕文字下方 */
+            
+            /* 核心：使用變數 --angle 讓漸層起點動起來 */
+            background: conic-gradient(
+                from var(--angle), 
+                transparent 20%,        /* 透明部分佔大比例，製造「流動」感 */
+                var(--glow-color), 
+                var(--glow-color-2),
+                var(--glow-color)
+            );
+            
+            border-radius: 10px;
+            animation: rotate 3s linear infinite; /* 套用旋轉動畫 */
+        }
+
+        /* 3. 製作發光暈染效果 (Glow Effect) - 讓光看起來更真實 */
+        .glow-btn::after {
+            content: '';
+            position: absolute;
+            inset: calc(var(--border-size) * -1);
+            z-index: -2;                /* 放在最底層 */
+            background: conic-gradient(
+                from var(--angle), 
+                transparent 20%, 
+                var(--glow-color), 
+                var(--glow-color-2),
+                var(--glow-color)
+            );
+            border-radius: 10px;
+            filter: blur(20px);         /* 模糊濾鏡是發光的關鍵 */
+            opacity: 0.7;
+            animation: rotate 3s linear infinite;
+        }
+
+        /* 4. 定義動畫：改變角度變數 */
+        @keyframes rotate {
+            0% {
+                --angle: 0deg;
+            }
+            100% {
+                --angle: 360deg;
+            }
+        }
+
+        /* 滑鼠懸停特效：加速旋轉或變亮 */
+        .glow-btn:hover {
+            background: #333;
+            letter-spacing: 2px; /* 文字間距拉開的微動畫 */
+        }
+        
+        .glow-btn:hover::before,
+        .glow-btn:hover::after {
+            animation-duration: 1.5s; /* 加速流動 */
+        }

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   捲動淡入特效示範
+  </title>
+  <link href="style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <section id="section1">
+   <div class="container">
+    <div class="content">
+     <h2>
+      01. 起始章節
+     </h2>
+     <p>
+      這是網頁的第一個部分。它是靜態的，當你打開網頁時就已經存在這裡。請嘗試向下滑動，查看接下來兩個區塊的動畫效果。
+     </p>
+    </div>
+    <div class="image-box">
+     <img alt="第一張圖片" src="https://placehold.co/600x400/007bff/ffffff?text=Section+1"/>
+    </div>
+   </div>
+  </section>
+  <section id="section2">
+   <div class="container hidden-left">
+    <div class="image-box">
+     <img alt="第二張圖片" src="https://placehold.co/600x400/ffc107/333333?text=Section+2"/>
+    </div>
+    <div class="content">
+     <h2>
+      02. 左側進場
+     </h2>
+     <p>
+      當你捲動到這個區域時，你會發現這個區塊是從
+      <strong>
+       左邊
+      </strong>
+      滑入並逐漸變清晰的。這種效果可以引導使用者的視線，增加閱讀的趣味性。
+     </p>
+    </div>
+   </div>
+  </section>
+  <section id="section3">
+   <div class="container hidden-right">
+    <div class="content">
+     <h2>
+      03. 右側進場
+     </h2>
+     <p>
+      這是最後一個區塊。它的動畫方向與上一個相反，是從
+      <strong>
+       右邊
+      </strong>
+      滑入的。透過 CSS 的 Transform 與 JavaScript 的監聽器，我們可以輕鬆實現這種互動體驗。
+     </p>
+    </div>
+    <div class="image-box">
+     <img alt="第三張圖片" src="https://placehold.co/600x400/e83e8c/ffffff?text=Section+3"/>
+    </div>
+   </div>
+  </section>
+  <script src="script.js">
+  </script>
+ </body>
+</html>

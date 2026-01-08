@@ -1,0 +1,78 @@
+/* --- 基礎設定 --- */
+        body {
+            font-family: "Microsoft JhengHei", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            overflow-x: hidden;
+            color: #333;
+        }
+
+        /* --- 區塊通用樣式 --- */
+        section {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 1000px;
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            
+            /* 為了演示效果，確保 container 有足夠高度，這樣捲動 50% 比較明顯 */
+            min-height: 400px; 
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        .content { flex: 1; }
+        .content h2 { font-size: 2rem; margin-bottom: 1rem; color: #2c3e50; }
+        .content p { line-height: 1.6; color: #555; }
+
+        .image-box { flex: 1; }
+        .image-box img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        /* --- 背景色區分 --- */
+        #section1 { background-color: #e0f7fa; }
+        #section2 { background-color: #fff3e0; }
+        #section3 { background-color: #f3e5f5; }
+
+        /* --- 動畫關鍵樣式 --- */
+        
+        /* 隱藏狀態 */
+        .hidden-left {
+            opacity: 0;
+            transform: translateX(-100px);
+            transition: all 1s ease-out; /* 動畫持續 1 秒 */
+        }
+
+        .hidden-right {
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 1s ease-out; /* 動畫持續 1 秒 */
+        }
+
+        /* 顯示狀態 */
+        .show {
+            opacity: 1;
+            transform: translateX(0);
+        }

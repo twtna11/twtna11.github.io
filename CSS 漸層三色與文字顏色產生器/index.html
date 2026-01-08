@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   CSS三色漸層產生器
+  </title>
+  <link href="style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <div class="container">
+   <h2>
+    🎨 CSS三色漸層產生器
+   </h2>
+   <div class="preview-box" id="gradient-preview">
+    <span id="preview-text-content">
+     預覽文字 Preview
+    </span>
+   </div>
+   <div class="controls">
+    <div class="control-row">
+     <label for="text-color">
+      文字顏色 (Text Color)
+     </label>
+     <input id="text-color" type="color" value="#ffffff"/>
+    </div>
+    <label>
+     背景漸層色 (Background Gradient)
+    </label>
+    <div class="color-grid">
+     <div class="color-item">
+      <label>
+       起始 (0%)
+      </label>
+      <input id="color1" type="color" value="#845ec2"/>
+     </div>
+     <div class="color-item">
+      <label>
+       中間 (50%)
+      </label>
+      <input id="color2" type="color" value="#d65db1"/>
+     </div>
+     <div class="color-item">
+      <label>
+       結束 (100%)
+      </label>
+      <input id="color3" type="color" value="#ff9671"/>
+     </div>
+    </div>
+    <div>
+     <label>
+      角度 (Angle)
+     </label>
+     <div class="angle-wrapper">
+      <input id="angle-range" max="360" min="0" type="range" value="135"/>
+      <input id="angle-input" max="360" min="0" type="number" value="135"/>
+     </div>
+    </div>
+   </div>
+   <div class="output-section">
+    <textarea id="css-code" readonly="" spellcheck="false"></textarea>
+    <button class="copy-btn" id="copy-btn">
+     複製 CSS 代碼
+    </button>
+   </div>
+  </div>
+  <script src="script.js">
+  </script>
+ </body>
+</html>

@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            touch-action: none; /* 防止手機滑動時觸發瀏覽器滾動 */
+        }
+
+        /* 遊戲畫布邊框發光效果 */
+        #gameCanvas {
+            box-shadow: 0 0 20px rgba(74, 222, 128, 0.2);
+        }
+
+        /* 按鈕點擊效果 */
+        .control-btn:active {
+            transform: scale(0.95);
+            background-color: rgba(74, 222, 128, 0.3);
+        }
+        
+        /* 隱藏卷軸 */
+        ::-webkit-scrollbar {
+            display: none;
+        }

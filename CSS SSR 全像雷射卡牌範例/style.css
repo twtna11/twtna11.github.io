@@ -1,0 +1,138 @@
+/* 1. 定義變數：控制雷射光的旋轉角度 */
+        @property --holo-angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        /* 2. 定義變數：控制光澤的移動位置 (模擬反光掃過) */
+        @property --glare-pos {
+            syntax: '<percentage>';
+            initial-value: 0%;
+            inherits: false;
+        }
+
+        body {
+            background-color: #050505;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            perspective: 1000px; /* 3D 透視感，讓翻轉更真實 */
+        }
+
+        /* 卡片容器 */
+        .holo-card {
+            width: 300px;
+            height: 450px;
+            position: relative;
+            background: #1a1a1a;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: transform 0.5s ease;
+            cursor: pointer;
+            overflow: hidden; /* 確保光影不跑出卡片 */
+            border: 1px solid #333;
+        }
+
+        /* 卡片內容 (模擬遊戲數值) */
+        .card-content {
+            z-index: 2; /* 確保文字在光影之上 */
+            text-align: center;
+            pointer-events: none; /* 讓滑鼠事件穿透文字 */
+        }
+        
+        .rank {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(to bottom, #ffd700, #ff8c00);
+            -webkit-background-clip: text;
+            color: transparent;
+            margin: 0;
+            text-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .name {
+            font-size: 1.5rem;
+            margin-top: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* 核心特效層 1：全像雷射漸層 (Holographic Gradient) */
+        .holo-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            opacity: 0.6;
+            
+            /* 使用變數控制角度，創造旋轉的彩虹光譜 */
+            background: linear-gradient(
+                var(--holo-angle),
+                transparent 20%,
+                rgba(255, 0, 0, 0.5) 30%,
+                rgba(0, 255, 0, 0.5) 40%,
+                rgba(0, 0, 255, 0.5) 50%,
+                transparent 60%
+            );
+            
+            /* 關鍵：混合模式 (類似 Photoshop 的濾色/疊加) */
+            mix-blend-mode: color-dodge; 
+            
+            animation: holo-spin 6s linear infinite;
+        }
+
+        /* 核心特效層 2：掃光效果 (Glare) */
+        .holo-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            
+            /* 一道白光掃過去的效果 */
+            background: linear-gradient(
+                115deg,
+                transparent 40%,
+                rgba(255, 255, 255, 0.4) 45%, /* 亮光帶 */
+                rgba(255, 255, 255, 0.1) 50%,
+                transparent 55%
+            );
+            
+            /* 讓這道光隨著變數移動 */
+            background-position: var(--glare-pos) 0%;
+            background-size: 200% 100%;
+            mix-blend-mode: overlay;
+            
+            animation: glare-move 4s ease-in-out infinite;
+        }
+
+        /* 定義動畫 */
+        @keyframes holo-spin {
+            0% { --holo-angle: 0deg; }
+            100% { --holo-angle: 360deg; }
+        }
+
+        @keyframes glare-move {
+            0%, 100% { --glare-pos: 0%; }
+            50% { --glare-pos: 100%; } /* 光澤來回掃動 */
+        }
+
+        /* 滑鼠互動：懸停時卡片浮起，特效加速 */
+        .holo-card:hover {
+            transform: translateY(-10px) rotateX(10deg) rotateY(-10deg);
+            box-shadow: 0 20px 50px rgba(0, 200, 255, 0.3);
+            border-color: #00d2ff;
+        }
+        
+        .holo-card:hover::before {
+            animation-duration: 2s; /* 雷射轉速變快 */
+            opacity: 0.8;
+        }

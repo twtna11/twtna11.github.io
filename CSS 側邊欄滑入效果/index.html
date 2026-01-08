@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   CSS 側邊欄滑入效果
+  </title>
+  <link href="style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <button class="menu-btn" onclick="toggleSidebar()">
+   開啟選單
+  </button>
+  <div class="overlay" id="overlay" onclick="toggleSidebar()">
+  </div>
+  <nav class="sidebar" id="sidebar">
+   <h2>
+    導覽選單
+   </h2>
+   <ul>
+    <li>
+     首頁
+    </li>
+    <li>
+     關於我們
+    </li>
+    <li>
+     服務項目
+    </li>
+    <li>
+     聯絡我們
+    </li>
+   </ul>
+   <button class="menu-btn" onclick="toggleSidebar()" style="background: #e74c3c;">
+    關閉
+   </button>
+  </nav>
+  <div style="padding: 20px;">
+   <h1>
+    主要內容區域
+   </h1>
+   <p>
+    點擊左上角按鈕即可看到側邊欄滑入效果。
+   </p>
+  </div>
+  <script src="script.js">
+  </script>
+ </body>
+</html>

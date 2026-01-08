@@ -1,0 +1,58 @@
+/* --- 1. 定義 CSS 變數 (預設值) --- */
+        :root {
+            --neon-color: #0ff;   /* 預設顏色：青色 */
+            --glow-size: 20px;    /* 預設發光範圍 */
+        }
+
+        body {
+            background-color: #050505; /* 極深色背景是霓虹燈的關鍵 */
+            font-family: Arial, monospace, 'Courier New', Courier; /* 復古科技感字體 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: white;
+        }
+
+        /* --- 2. 霓虹燈文字樣式 --- */
+        .neon-text {
+            font-size: 5rem;
+            font-weight: bold;
+            color: #fff; /* 燈管中心通常是白亮色 */
+            text-transform: uppercase;
+            
+            /* 關鍵：利用多層 text-shadow 創造發光感 */
+            /* 這裡引用了 CSS 變數 */
+            text-shadow:
+                0 0 5px #fff,                         /* 內層光暈 (白) */
+                0 0 10px #fff,                        /* 次內層 (白) */
+                0 0 20px var(--neon-color),           /* 外層光暈 (變數色) */
+                0 0 40px var(--neon-color),           /* 更外層 (變數色) */
+                0 0 var(--glow-size) var(--neon-color); /* 最外層擴散 (變數大小 + 變數色) */
+            
+            transition: text-shadow 0.2s ease; /* 讓變化平滑一點 */
+        }
+
+        /* --- 控制面板樣式 (Glassmorphism 微玻璃感) --- */
+        .controls {
+            margin-top: 50px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        label {
+            font-size: 1.1rem;
+            margin-right: 10px;
+        }
+
+        input[type="range"] {
+            cursor: pointer;
+        }

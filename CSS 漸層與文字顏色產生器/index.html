@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   CSS 漸層與文字顏色產生器
+  </title>
+  <link href="style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <div class="container">
+   <h2>
+    🎨 風格產生器
+   </h2>
+   <div class="preview-box" id="gradient-preview">
+    <span id="preview-text-content">
+     預覽文字 Preview
+    </span>
+   </div>
+   <div class="controls">
+    <div class="control-group">
+     <label for="text-color">
+      文字顏色 (Text)
+     </label>
+     <input id="text-color" type="color" value="#ffffff"/>
+    </div>
+    <div class="control-group">
+     <label for="color1">
+      漸層起始 (Start)
+     </label>
+     <input id="color1" type="color" value="#4facfe"/>
+    </div>
+    <div class="control-group">
+     <label for="color2">
+      漸層結束 (End)
+     </label>
+     <input id="color2" type="color" value="#00f2fe"/>
+    </div>
+    <div class="control-group">
+     <label>
+      角度 (Deg)
+     </label>
+     <div class="angle-controls">
+      <input id="angle-range" max="360" min="0" type="range" value="45"/>
+      <input id="angle-input" max="360" min="0" type="number" value="45"/>
+     </div>
+    </div>
+   </div>
+   <div class="output-section">
+    <textarea id="css-code" readonly="" spellcheck="false"></textarea>
+    <button class="copy-btn" id="copy-btn">
+     複製 CSS 代碼
+    </button>
+   </div>
+  </div>
+  <script src="script.js">
+  </script>
+ </body>
+</html>

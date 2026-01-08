@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   CSS 霓虹燈文字與圖案
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <!-- 引入 Google Fonts 以獲得更好的霓虹字體效果 -->
+  <link href="https://fonts.googleapis.com/css2?family=Monoton&amp;family=Neonderthaw&amp;family=Noto+Sans+TC:wght@100;400;700&amp;family=Vibur&amp;display=swap" rel="stylesheet"/>
+  <link href="style.css" rel="stylesheet"/>
+ </head>
+ <body class="min-h-screen text-white flex flex-col items-center py-10 transition-colors duration-500">
+  <!-- 控制面板 -->
+  <div class="fixed top-5 right-5 z-50 flex flex-col gap-4 bg-black/60 p-4 rounded-xl border border-gray-700 backdrop-blur-sm">
+   <!-- 電源開關 -->
+   <label class="flex items-center justify-between cursor-pointer w-full" for="toggle">
+    <span class="text-gray-300 text-sm font-bold mr-3">
+     電源 Power
+    </span>
+    <div class="relative">
+     <input checked="" class="sr-only" id="toggle" onchange="toggleLights()" type="checkbox"/>
+     <div class="block bg-gray-800 w-12 h-7 rounded-full border border-gray-600">
+     </div>
+     <div class="dot absolute left-1 top-1 bg-white w-5 h-5 rounded-full transition-transform duration-300 ease-in-out transform translate-x-5 bg-green-400 shadow-[0_0_10px_#4ade80]">
+     </div>
+    </div>
+   </label>
+   <!-- 亮度調節 -->
+   <div class="flex flex-col w-full" id="brightness-container">
+    <div class="flex justify-between mb-1">
+     <label class="text-gray-300 text-sm font-bold" for="brightness">
+      亮度 Brightness
+     </label>
+     <span class="text-xs text-gray-400 font-mono" id="brightness-val">
+      100%
+     </span>
+    </div>
+    <input id="brightness" max="2.0" min="0.3" oninput="adjustBrightness(this.value)" step="0.1" type="range" value="1"/>
+   </div>
+  </div>
+  <header class="mb-12 text-center">
+   <h1 class="text-4xl md:text-5xl font-bold mb-2 text-gray-500">
+    CSS NEON GALLERY
+   </h1>
+   <p class="text-gray-600 text-sm">
+    使用控制面板調節亮度與開關
+   </p>
+  </header>
+  <!-- 展示網格 -->
+  <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 w-full max-w-6xl px-6">
+   <!-- 範例 1: 經典粉色文字 (英文) -->
+   <div class="flex flex-col items-center justify-center p-10 border border-gray-800 bg-black/30 rounded-xl min-h-[250px]">
+    <h2 class="neon-pink neon-element font-retro text-6xl tracking-widest animate-flicker">
+     OPEN
+    </h2>
+    <p class="mt-4 text-aux text-xs tracking-widest">
+     CLASSIC SIGN
+    </p>
+   </div>
+   <!-- 範例 2: 藍色幾何圖案 + 文字 -->
+   <div class="flex flex-col items-center justify-center p-10 border border-gray-800 bg-black/30 rounded-xl min-h-[250px]">
+    <div class="circle-shape neon-element flex items-center justify-center mb-4">
+     <span class="text-3xl font-bold text-neon-white-glow">
+      24h
+     </span>
+    </div>
+    <h2 class="neon-blue neon-element font-handwriting text-5xl transform -rotate-6">
+     Cyber Vibes
+    </h2>
+   </div>
+   <!-- 範例 3: 繁體中文 + 紅色 (模擬港式/台式招牌) -->
+   <div class="flex flex-col items-center justify-center p-10 border border-gray-800 bg-black/30 rounded-xl min-h-[250px]">
+    <div class="border-neon-red p-4 rounded-lg neon-element">
+     <h2 class="neon-red neon-element text-6xl font-bold writing-vertical-rl tracking-widest leading-tight">
+      <span class="animate-flicker-slow">
+       不
+      </span>
+      夜城
+     </h2>
+    </div>
+   </div>
+   <!-- 範例 4: CSS 形狀 (愛心) + 粉紫光 -->
+   <div class="flex flex-col items-center justify-center p-10 border border-gray-800 bg-black/30 rounded-xl min-h-[250px]">
+    <div class="mb-8 mt-4">
+     <div class="heart-shape neon-element">
+     </div>
+    </div>
+    <h2 class="neon-pink neon-element font-cursive text-5xl mt-4">
+     Love you
+    </h2>
+   </div>
+   <!-- 範例 5: 邊框發光 + 綠色文字 -->
+   <div class="flex flex-col items-center justify-center p-10 border border-gray-800 bg-black/30 rounded-xl min-h-[250px]">
+    <div class="box-neon-green neon-element px-8 py-4 rounded cursor-pointer transition-transform hover:scale-105">
+     <h2 class="text-neon-green neon-element text-5xl font-bold tracking-widest font-mono">
+      RAMEN
+     </h2>
+    </div>
+    <p class="mt-6 text-aux-green text-xs">
+     OPEN LATE
+    </p>
+   </div>
+   <!-- 範例 6: 黃色警告風格 -->
+   <div class="flex flex-col items-center justify-center p-10 border border-gray-800 bg-black/30 rounded-xl min-h-[250px]">
+    <!-- 移除原有的 tailwind shadow 與 border class，改用 caution-style -->
+    <h2 class="neon-yellow neon-element caution-style text-6xl font-black italic transform -skew-x-12 pb-2">
+     CAUTION
+    </h2>
+    <h3 class="neon-yellow neon-element text-1xl mt-4 font-mono tracking-[0.5em] animate-pulse">
+     HIGH VOLTAGE
+    </h3>
+   </div>
+  </main>
+  <footer class="mt-20 text-gray-700 text-sm pb-10">
+   © 2025 Neon CSS Design Demo
+  </footer>
+  <script src="script.js">
+  </script>
+ </body>
+</html>

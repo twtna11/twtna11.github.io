@@ -1,0 +1,39 @@
+/* 圖片容器的樣式 */
+        .fixed-image-container {
+            /* 1. 實現固定定位：固定在視窗上，不隨捲軸移動 */
+            position: fixed;
+
+            /* 2. 定位到右下角 */
+            right: 20px; /* 距離視窗右邊緣 20 像素 */
+            bottom: 20px; /* 距離視窗底邊緣 20 像素 */
+
+            /* 3. 設定圖片方框的大小 */
+            width: 200px;
+            height: 100px;
+
+            /* 4. 設定半透明背景 */
+            /* 使用 rgba 設置顏色，最後一個參數 0.6 代表 60% 透明度 */
+            background-color: rgba(0, 0, 0, 0.6);
+            
+            /* 讓內容在容器內居中 (可選) */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            /* 確保它在最上層，不會被其他內容遮擋 (可選) */
+            z-index: 1000;
+            
+            /* 增加圓角讓它看起來更美觀 (可選) */
+            border-radius: 5px;
+        }
+
+        /* 圖片本身的樣式 */
+        .fixed-image-container img {
+            /* 確保圖片填滿容器 */
+            width: 45%; 
+            height: 90%;
+            /* 保持圖片比例並裁剪，如果圖片和容器比例不同 */
+            object-fit: cover;
+            /* 增加一點邊框讓它從半透明背景中突顯 (可選) */
+            border: 1px solid #ffffff;
+        }

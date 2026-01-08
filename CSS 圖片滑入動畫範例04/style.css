@@ -1,0 +1,89 @@
+/* --- 全域設定 --- */
+        body {
+            font-family: "Microsoft JhengHei", "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            overflow-x: hidden; /* 防止動畫起始位置造成的水平捲軸 */
+            color: #333;
+        }
+
+        /* --- 版面配置 --- */
+        section {
+            min-height: 90vh; /* 每個區塊高度，確保需要捲動 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            min-height: 300px;
+        }
+
+        /* 響應式：手機版垂直排列 */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                text-align: center;
+            }
+            /* 手機版偶數區塊為了閱讀順序，可選擇反轉 column (選用) */
+            /* .container.reverse-layout { flex-direction: column-reverse; } */
+        }
+
+        .content { flex: 1; }
+        .content h2 { font-size: 2.5rem; margin-bottom: 0.5rem; color: #2c3e50; }
+        .content .subtitle { font-size: 1.2rem; color: #7f8c8d; margin-bottom: 1rem; font-weight: bold; }
+        .content p { line-height: 1.8; color: #555; font-size: 1.1rem; }
+
+        .image-box { flex: 1; }
+        .image-box img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            object-fit: cover;
+        }
+
+        /* --- 區塊背景色 (交錯顯示) --- */
+        #section1 { background-color: #e3f2fd; } /* 藍 */
+        #section2 { background-color: #fff3e0; } /* 橘 */
+        #section3 { background-color: #e8f5e9; } /* 綠 */
+        #section4 { background-color: #fce4ec; } /* 粉 */
+        #section5 { background-color: #f3e5f5; } /* 紫 */
+
+        /* --- 動畫關鍵樣式 --- */
+        
+        /* 基礎轉場設定 */
+        .hidden-left, .hidden-right {
+            opacity: 0;
+            transition: all 1s ease-out; /* 動畫時間 1秒 */
+            /* 讓這層容器做動畫，也可以避免文字圖片分開 */
+        }
+
+        /* 奇數：由左至右 (初始位置在左側 -100px) */
+        .hidden-left {
+            transform: translateX(-150px);
+        }
+
+        /* 偶數：由右至左 (初始位置在右側 100px) */
+        .hidden-right {
+            transform: translateX(150px);
+        }
+
+        /* 顯示狀態：歸位 */
+        .show {
+            opacity: 1;
+            transform: translateX(0);
+        }

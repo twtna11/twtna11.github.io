@@ -1,0 +1,175 @@
+:root {
+            --primary-color: #3b82f6;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-color: #1f2937;
+            /* 定義緊湊的間距變數 */
+            --compact-gap: 0.8rem;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* 確保不超過視窗高度，並減少邊距以適應小螢幕 */
+            height: 100vh;
+            margin: 0;
+            padding: 10px;
+            box-sizing: border-box;
+            overflow: hidden; /* 防止滾動條出現 */
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            /* 減少內距以節省空間 */
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            width: 100%;
+            max-width: 450px;
+            display: flex;
+            flex-direction: column;
+            /* 讓容器盡量不要超過最大高度，確保在小筆電也能完整顯示 */
+            max-height: 95vh;
+        }
+
+        h2 {
+            text-align: center;
+            /* 減少標題邊距 */
+            margin: 0 0 1rem 0;
+            font-size: 1.4rem;
+            color: #333;
+            flex-shrink: 0;
+        }
+
+        /* 預覽區塊優化 */
+        .preview-box {
+            width: 100%;
+            /* 稍微降低高度以節省空間 */
+            height: 120px;
+            border-radius: 12px;
+            margin-bottom: 1.2rem;
+            border: 2px solid #e5e7eb;
+            /* 加入 Flex 使內部文字置中 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+
+        /* 控制項區域緊湊化 */
+        .controls {
+            display: flex;
+            flex-direction: column;
+            /* 減少控制項之間的間距 */
+            gap: var(--compact-gap);
+            flex-shrink: 1;
+            overflow-y: auto; /* 極端情況下允許內部滾動 */
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            /* 增加一點底部邊界 */
+             padding-bottom: 4px;
+             border-bottom: 1px solid #f0f0f0;
+        }
+        
+        /* 最後一個控制項不需要底線 */
+        .control-group:last-child {
+            border-bottom: none;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #555;
+        }
+
+        /* 顏色選擇器美化 (保持原樣) */
+        input[type="color"] {
+            -webkit-appearance: none;
+            border: none;
+            width: 40px; /* 稍微縮小 */
+            height: 40px;
+            cursor: pointer;
+            border-radius: 50%;
+            overflow: hidden;
+            padding: 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+        
+        input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+        input[type="color"]::-webkit-color-swatch { border: none; }
+
+        /* 角度控制項 */
+        .angle-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-grow: 1;
+            margin-left: 15px;
+        }
+
+        input[type="range"] {
+            flex-grow: 1;
+            cursor: pointer;
+            height: 6px;
+        }
+
+        input[type="number"] {
+            width: 50px;
+            padding: 4px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        /* 程式碼輸出區緊湊化 */
+        .output-section {
+            /* 減少上方邊距 */
+            margin-top: 1rem;
+            flex-shrink: 0;
+        }
+
+        textarea {
+            width: 100%;
+            /* 調整高度以剛好容納兩行代碼 */
+            height: 55px;
+            background-color: #1e293b;
+            color: #a5f3fc;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            font-size: 0.85rem;
+            resize: none;
+            box-sizing: border-box;
+            line-height: 1.4;
+        }
+
+        .copy-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        .copy-btn:hover { background-color: #2563eb; }
+        .copy-btn:active { transform: scale(0.98); }

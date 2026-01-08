@@ -1,0 +1,83 @@
+/* --- 環境設定 (為了讓玻璃效果明顯，背景需要有色彩) --- */
+  body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    /* 這裡放一個深色或彩色背景圖也可以，玻璃感會更強 */
+    background: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+    background-size: cover;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: sans-serif;
+  }
+
+  /* --- 琉璃圖示主體樣式 --- */
+  .glass-icon {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 24px; /* 圓角 */
+    
+    /* 1. 基礎透明度與模糊 (核心) */
+    background: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(12px); /* 磨砂效果 */
+    -webkit-backdrop-filter: blur(12px); /* Safari 支援 */
+    
+    /* 2. 邊框 (模擬邊緣反光) - 上左亮，下右暗 */
+    border-top: 1px solid rgba(255, 255, 255, 0.6);
+    border-left: 1px solid rgba(255, 255, 255, 0.6);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    
+    /* 3. 陰影層次 (製造立體感與厚度) */
+    box-shadow: 
+      /* 外部陰影：讓物體浮起來 */
+      10px 10px 20px rgba(0, 0, 0, 0.2),
+      /* 內部高光 (inset)：模擬光線照入玻璃內部的通透感 */
+      inset 0px 0px 20px rgba(255, 255, 255, 0.2),
+      inset 2px 2px 5px rgba(255, 255, 255, 0.4),
+      inset -2px -2px 5px rgba(0, 0, 0, 0.1);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+    /* 讓內部的文字或 icon 也有微微的浮凸感 */
+    text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+
+  /* --- 裝飾：額外的高光反射層 (更像琉璃) --- */
+  .glass-icon::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 25px;
+    height: 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.6);
+    filter: blur(2px);
+    transform: rotate(-15deg);
+  }
+
+  /* --- 互動效果：懸停時浮起 --- */
+  .glass-icon:hover {
+    transform: translateY(-5px) scale(1.05);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 
+      15px 15px 30px rgba(0, 0, 0, 0.3),
+      inset 0px 0px 20px rgba(255, 255, 255, 0.3),
+      inset 2px 2px 5px rgba(255, 255, 255, 0.5);
+  }
+  
+  /* --- 為了展示多個圖示 --- */
+  .container {
+    display: flex;
+    gap: 30px;
+  }

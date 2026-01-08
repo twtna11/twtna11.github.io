@@ -1,0 +1,49 @@
+/* 網頁整體樣式 */
+        body {
+            /* 讓內容可以在畫面上置中 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* 確保 body 佔滿整個視窗 */
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0; /* 淺灰色背景 */
+            overflow: hidden; /* 防止滾動條在動畫進行時出現 */
+        }
+
+        /* 圖片容器的樣式 */
+        .image-container {
+            width: 600px;
+            height: 400px;
+            /* 圖片初始位置：-100% 寬度，讓它從畫面左側完全移出 */
+            transform: translateX(-100vw); /* 使用 -100vw 確保從畫面外開始 */
+            opacity: 0; /* 初始不可見 */
+
+            /* 設定動畫：名稱(slideIn)、持續時間(2s)、時間函數(ease-out)、延遲(0.5s)、播放次數(一次) */
+            animation: slideIn 2s ease-out 0.5s forwards;
+        }
+
+        /* 圖片樣式 - 確保圖片填滿容器 */
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 確保圖片不變形填滿 */
+            display: block;
+            border-radius: 8px; /* 圓角效果 */
+            box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.2); /* 陰影效果 */
+        }
+
+        /* 定義動畫 (keyframes) */
+        @keyframes slideIn {
+            /* 0% 時的狀態：從畫面左側外開始，透明度為 0 */
+            0% {
+                transform: translateX(-100vw);
+                opacity: 0;
+            }
+            /* 100% 時的狀態：移動到最終位置 (畫面中央)，透明度為 1 */
+            100% {
+                /* 0 的 X 軸平移量，表示回到元素的原始中心位置 */
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }

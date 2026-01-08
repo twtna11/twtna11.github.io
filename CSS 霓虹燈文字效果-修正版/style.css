@@ -1,0 +1,123 @@
+/* 定義 CSS 變數，方便統一管理霓虹燈顏色 */
+        :root {
+            --neon-color: #ff00de;
+        }
+
+        body {
+            background-color: #111;
+            color: #ccc;
+            margin: 0;
+            font-family: "Noto Sans TC", sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* 上方展示區塊 */
+        .demo-area {
+            flex: 1; /* 佔據剩餘空間，讓文字保持在視覺中心附近 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            min-height: 50vh;
+            position: relative;
+        }
+
+        /* 霓虹燈文字樣式 */
+        .neon {
+            font-size: 5rem;
+            font-weight: bold;
+            color: #fff; /* 燈管中心極亮 */
+            
+            /* 使用 var(--neon-color) 來引用變數顏色 */
+            text-shadow:
+                0 0 5px #fff,
+                0 0 10px #fff,
+                0 0 20px var(--neon-color),
+                0 0 40px var(--neon-color),
+                0 0 80px var(--neon-color);
+            
+            animation: flicker 1.5s infinite alternate;
+        }
+
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                text-shadow:
+                    0 0 5px #fff,
+                    0 0 10px #fff,
+                    0 0 20px var(--neon-color),
+                    0 0 40px var(--neon-color),
+                    0 0 80px var(--neon-color);
+            }
+            20%, 24%, 55% {        
+                text-shadow: none;
+                opacity: 0.5;
+            }
+        }
+
+        /* 右側控制面板 */
+        .controls {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            z-index: 100;
+        }
+        
+        .controls label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        input[type="color"] {
+            border: none;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            background: none;
+        }
+
+        /* 下方教學說明區塊 */
+        .tutorial-section {
+            width: 100%;
+            max-width: 800px;
+            padding: 40px 20px;
+            border-top: 1px solid #333;
+            background-color: #1a1a1a;
+        }
+
+        .tutorial-section h2 {
+            color: #fff;
+            border-bottom: 2px solid var(--neon-color);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        .concept-card {
+            background: #222;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border-left: 4px solid var(--neon-color);
+        }
+
+        .concept-card h3 {
+            margin-top: 0;
+            color: #fff;
+        }
+
+        code {
+            background: #000;
+            color: #0f0;
+            padding: 2px 5px;
+            font-family: monospace;
+            border-radius: 3px;
+        }

@@ -1,0 +1,74 @@
+/* 1. 基礎環境設定：深色背景 */
+        body {
+            background-color: #0d0d0d;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: sans-serif;
+        }
+
+        /* 2. 按鈕本體設定 */
+        .rainbow-btn {
+            position: relative; /* 為了讓偽元素絕對定位 */
+            padding: 15px 40px;
+            font-size: 24px;
+            color: white;
+            background-color: #1a1a1a; /* 按鈕中間的顏色 */
+            border: none;
+            border-radius: 8px; /* 圓角 */
+            cursor: pointer;
+            z-index: 1; /* 確保內容在最上層 */
+            overflow: hidden; 
+        }
+
+        /* 3. 製作旋轉的彩虹背景 (::before) */
+        .rainbow-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 150%; /* 寬度必須大於按鈕，確保旋轉時覆蓋 */
+            height: 500%;
+            
+            /* 核心：圓錐漸層產生彩虹色 */
+            background: conic-gradient(
+                #ff0000, 
+                #ff7300, 
+                #fffb00, 
+                #48ff00, 
+                #00ffd5, 
+                #002bff, 
+                #7a00ff, 
+                #ff00c8, 
+                #ff0000
+            );
+            
+            /* 將中心點移回按鈕中心，並設定層級在按鈕後方 */
+            transform: translate(-50%, -50%);
+            z-index: -2; 
+            
+            /* 動畫設定 */
+            animation: rotate-border 4s linear infinite;
+        }
+
+        /* 4. 遮罩層 (::after) - 用來蓋住中間的彩虹，只露出邊框 */
+        .rainbow-btn::after {
+            content: '';
+            position: absolute;
+            inset: 3px; /* 這裡控制邊框粗細，數值越大邊框越細 */
+            background-color: #1a1a1a; /* 必須與按鈕本體或背景色一致 */
+            border-radius: 6px; /* 比外層圓角稍小一點 */
+            z-index: -1;
+        }
+
+        /* 5. 旋轉動畫定義 */
+        @keyframes rotate-border {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }

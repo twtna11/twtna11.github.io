@@ -1,0 +1,48 @@
+/* 1. 背景必須是深色，才能突顯光的對比 */
+        body {
+            background-color: #111;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: sans-serif;
+        }
+
+        /* 2. 霓虹燈文字樣式 */
+        .neon {
+            font-size: 5rem;
+            font-weight: bold;
+            color: #fff; /* 燈管中心通常是白色或極亮的顏色 */
+            
+            /* 3. 核心原理：多層次陰影堆疊 */
+            text-shadow:
+                /* 第一層：緊貼的白光 (模擬燈管本體) */
+                0 0 5px #fff,
+                /* 第二層：稍微擴散的白光 (模擬高光溢出) */
+                0 0 10px #fff,
+                /* 第三層：主要色光 (開始帶有顏色) */
+                0 0 20px #ff00de,
+                /* 第四層：擴散色光 (營造氛圍) */
+                0 0 40px #ff00de,
+                /* 第五層：大範圍暈光 (照亮背景) */
+                0 0 80px #ff00de;
+            
+            /* 4. 簡單的閃爍動畫 (選用) */
+            animation: flicker 1.5s infinite alternate;
+        }
+
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                text-shadow:
+                    0 0 5px #fff,
+                    0 0 10px #fff,
+                    0 0 20px #ff00de,
+                    0 0 40px #ff00de,
+                    0 0 80px #ff00de;
+            }
+            20%, 24%, 55% {        
+                text-shadow: none; /* 模擬接觸不良熄滅 */
+                opacity: 0.5;
+            }
+        }

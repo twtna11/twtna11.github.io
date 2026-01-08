@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   現代化 CSS 表單範例
+  </title>
+  <link href="style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <div class="form-card">
+   <h2>
+    聯絡我們
+   </h2>
+   <form action="#" method="post">
+    <div class="form-group">
+     <label for="name">
+      全名
+     </label>
+     <input id="name" name="name" placeholder="例如：王小明" required="" type="text"/>
+    </div>
+    <div class="form-group">
+     <label for="email">
+      電子郵件信箱
+     </label>
+     <input id="email" name="email" placeholder="example@email.com" required="" type="email"/>
+    </div>
+    <div class="form-group">
+     <label for="category">
+      詢問類別
+     </label>
+     <select id="category" name="category">
+      <option value="service">
+       產品諮詢
+      </option>
+      <option value="tech">
+       技術支援
+      </option>
+      <option value="other">
+       其他問題
+      </option>
+     </select>
+    </div>
+    <div class="form-group">
+     <label>
+      您目前的身分
+     </label>
+     <div class="radio-group">
+      <label>
+       <input checked="" name="role" type="radio" value="student"/>
+       學生
+      </label>
+      <label>
+       <input name="role" type="radio" value="worker"/>
+       上班族
+      </label>
+     </div>
+    </div>
+    <div class="form-group">
+     <label for="message">
+      您的留言
+     </label>
+     <textarea id="message" name="message" placeholder="請輸入您的內容..." rows="4"></textarea>
+    </div>
+    <div class="form-group">
+     <div class="checkbox-group">
+      <label>
+       <input checked="" name="subscribe" type="checkbox"/>
+       我同意接收電子報
+      </label>
+     </div>
+    </div>
+    <button type="submit">
+     確認送出
+    </button>
+   </form>
+  </div>
+ </body>
+</html>

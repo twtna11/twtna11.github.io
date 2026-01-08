@@ -1,0 +1,127 @@
+body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-top: 0;
+        }
+
+        .section-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- 共同樣式 --- */
+        .wave-container {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+        .title {
+            position: relative;
+            z-index: 20;
+            font-size: 2em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        /* ======================================================= */
+        /* 純 CSS 實作                    */
+        /* ======================================================= */
+        .css-wave-container {
+            background-color: #38a1f7; /* 底部海洋藍 */
+        }
+
+        /* 定義純 CSS 波浪滾動動畫 */
+        @keyframes css-wave-move {
+            0% { transform: translate3d(-90px, 0, 0); }
+            100% { transform: translate3d(85px, 0, 0); }
+        }
+
+        /* 第一層波浪 (半透明) */
+        .css-wave-container::before {
+            content: "";
+            position: absolute;
+            width: 650px;
+            height: 650px;
+            background-color: rgba(255, 255, 255, 0.4);
+            bottom: 100px; /* 調整為底部定位 */
+            left: 50%;
+            transform: translate3d(-50%, 0, 0);
+            border-radius: 40% 45% 40% 45%; /* 波浪形狀 */
+            animation: css-wave-move 5s linear infinite alternate;
+            z-index: 10;
+        }
+
+        /* 第二層波浪 (實色) */
+        .css-wave-container::after {
+            content: "";
+            position: absolute;
+            width: 650px;
+            height: 650px;
+            background-color: rgba(255, 255, 255, 0.9);
+            bottom: 130px; /* 稍微錯開位置 */
+            left: 50%;
+            transform: translate3d(-50%, 0, 0);
+            border-radius: 40% 45% 40% 45%;
+            animation: css-wave-move 7s linear infinite alternate-reverse;
+            z-index: 5;
+        }
+
+        /* ======================================================= */
+        /* SVG 實作                       */
+        /* ======================================================= */
+        .svg-wave-container {
+            background-color: #f06292; /* 底部粉色 */
+        }
+
+        /* 定義 SVG 波浪移動動畫 */
+        @keyframes svg-wave-slide {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+        }
+
+        /* SVG 容器樣式 */
+        .svg-wave-container svg {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200%; /* 寬度設為兩倍，方便連續滾動 */
+            height: 100px; /* 波浪高度 */
+            z-index: 10;
+        }
+        
+        /* 取得 SVG 內的波浪路徑元素 */
+        .svg-wave-path {
+            animation: svg-wave-slide 10s linear infinite; /* 無限、線性滾動 */
+        }
+
+        /* 第一層 SVG 波浪 */
+        #wave1 {
+            fill: rgba(255, 255, 255, 0.6);
+            animation-duration: 10s;
+        }
+
+        /* 第二層 SVG 波浪 (顏色和速度不同) */
+        #wave2 {
+            fill: rgba(255, 255, 255, 0.9);
+            animation-duration: 7s;
+            animation-delay: -2s; /* 稍微錯開起始點 */
+        }

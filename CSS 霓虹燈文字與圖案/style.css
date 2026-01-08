@@ -1,0 +1,329 @@
+/* 定義全域變數 */
+        :root {
+            --neon-brightness: 1; /* 預設亮度 */
+        }
+
+        /* 全局背景：模擬暗磚牆 */
+        body {
+            background-color: #111;
+            background-image: 
+                linear-gradient(335deg, rgba(0,0,0,0.8) 23px, transparent 23px),
+                linear-gradient(155deg, rgba(0,0,0,0.8) 23px, transparent 23px),
+                linear-gradient(335deg, rgba(0,0,0,0.8) 23px, transparent 23px),
+                linear-gradient(155deg, rgba(0,0,0,0.8) 23px, transparent 23px);
+            background-size: 58px 58px;
+            background-position: 0px 2px, 4px 35px, 29px 31px, 34px 6px;
+            font-family: 'Noto Sans TC', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* 通用亮度濾鏡類別 - 將應用於所有發光元素 */
+        .neon-element {
+            filter: brightness(var(--neon-brightness));
+            transition: filter 0.1s; /* 讓亮度調整平滑 */
+        }
+
+        /* * 核心霓虹燈 Mixin 概念 
+         * 使用多層 text-shadow 創造中心白亮、外圍發光的效果
+         */
+
+        /* 1. 粉紅色霓虹 (Pink) */
+        .neon-pink {
+            color: #fff;
+            text-shadow:
+                0 0 7px #fff,
+                0 0 10px #fff,
+                0 0 21px #fff,
+                0 0 42px #ff00de,
+                0 0 82px #ff00de,
+                0 0 92px #ff00de,
+                0 0 102px #ff00de,
+                0 0 151px #ff00de;
+        }
+        
+        /* 2. 藍色霓虹 (Blue/Cyan) */
+        .neon-blue {
+            color: #fff;
+            text-shadow:
+                0 0 7px #fff,
+                0 0 10px #fff,
+                0 0 21px #fff,
+                0 0 42px #0bc,
+                0 0 82px #0bc,
+                0 0 92px #0bc,
+                0 0 102px #0bc,
+                0 0 151px #0bc;
+        }
+
+        /* 3. 紅色霓虹 (Red) */
+        .neon-red {
+            color: #fff;
+            text-shadow:
+                0 0 7px #fff,
+                0 0 10px #fff,
+                0 0 21px #fff,
+                0 0 42px #FF0000,
+                0 0 82px #FF0000,
+                0 0 92px #FF0000,
+                0 0 102px #FF0000,
+                0 0 151px #FF0000;
+        }
+
+        /* 特殊處理：紅色外框 */
+        .border-neon-red {
+            border: 4px solid #dc2626;
+            box-shadow: 0 0 20px #f00, inset 0 0 20px #f00;
+        }
+
+        /* 4. 綠色霓虹 (Green) - 用於邊框 */
+        .box-neon-green {
+            box-shadow:
+                0 0 .2rem #fff,
+                0 0 .2rem #fff,
+                0 0 2rem #0f0,
+                0 0 0.8rem #0f0,
+                0 0 2.8rem #0f0,
+                inset 0 0 1.3rem #0f0; 
+            border: 0.2rem solid #fff;
+        }
+        .text-neon-green {
+            color: #fff;
+            text-shadow:
+                0 0 4px #fff,
+                0 0 11px #fff,
+                0 0 19px #fff,
+                0 0 40px #0fa,
+                0 0 80px #0fa,
+                0 0 90px #0fa,
+                0 0 100px #0fa,
+                0 0 150px #0fa;
+        }
+        
+        /* 輔助文字顏色 (OPEN LATE 等) */
+        .text-aux {
+            color: rgba(107, 114, 128, 1); /* gray-500 */
+        }
+        .text-aux-green {
+            color: rgba(34, 197, 94, 0.5); /* green-500/50 */
+        }
+
+        /* 24h 內部文字 */
+        .text-neon-white-glow {
+            color: #fff;
+            text-shadow: 0 0 5px #fff;
+        }
+
+        /* 5. 黃色霓虹 (Yellow) */
+        .neon-yellow {
+            color: #fff;
+            text-shadow:
+                0 0 7px #fff,
+                0 0 10px #fff,
+                0 0 21px #fff,
+                0 0 42px #FFD700,
+                0 0 82px #FFD700,
+                0 0 92px #FFD700,
+                0 0 102px #FFD700,
+                0 0 151px #FFD700;
+        }
+
+        /* CAUTION 特殊樣式 (修正陰影不熄滅問題) */
+        .caution-style {
+            border-bottom: 4px solid #fde047; /* yellow-300 */
+            box-shadow: 0 4px 20px #FFD700;
+        }
+
+        /* CSS 繪圖：愛心形狀 */
+        .heart-shape {
+            background-color: #fff;
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            position: relative;
+            transform: rotate(-45deg);
+            box-shadow: 0 0 20px #ff00de, 0 0 40px #ff00de; 
+            animation: pulsate 1.5s infinite alternate;
+        }
+        .heart-shape::before,
+        .heart-shape::after {
+            content: "";
+            background-color: #fff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            position: absolute;
+            box-shadow: 0 0 20px #ff00de, 0 0 40px #ff00de;
+        }
+        .heart-shape::before { top: -25px; left: 0; }
+        .heart-shape::after { top: 0; left: 25px; }
+
+        /* 閃爍動畫 (Flicker) */
+        @keyframes flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% {
+                opacity: 1;
+            }
+            20%, 24%, 55% {
+                opacity: 0.4;
+            }
+        }
+        
+        @keyframes pulsate {
+            100% {
+                text-shadow:
+                0 0 4px #fff,
+                0 0 11px #fff,
+                0 0 19px #fff,
+                0 0 40px #ff00de,
+                0 0 80px #ff00de,
+                0 0 90px #ff00de,
+                0 0 100px #ff00de,
+                0 0 150px #ff00de;
+            }
+            0% {
+                text-shadow:
+                0 0 2px #fff,
+                0 0 4px #fff,
+                0 0 6px #fff,
+                0 0 10px #ff00de,
+                0 0 45px #ff00de,
+                0 0 55px #ff00de,
+                0 0 70px #ff00de,
+                0 0 80px #ff00de;
+            }
+        }
+
+        .animate-flicker {
+            animation: flicker 2.5s infinite alternate;
+        }
+        
+        .animate-flicker-slow {
+            animation: flicker 5s infinite alternate-reverse;
+        }
+
+        /* * =========================================
+         * 關閉狀態樣式 (JavaScript 控制) - 修正版
+         * =========================================
+         */
+        
+        /* 1. 停止所有動畫 */
+        body.lights-off .animate-flicker,
+        body.lights-off .animate-flicker-slow,
+        body.lights-off .animate-pulse {
+            animation: none !important;
+            opacity: 1 !important; /* 強制重置透明度，避免停在暗的狀態 */
+        }
+        
+        /* 2. 主要霓虹文字熄滅 */
+        body.lights-off .neon-pink,
+        body.lights-off .neon-blue,
+        body.lights-off .neon-red,
+        body.lights-off .neon-yellow,
+        body.lights-off .text-neon-green {
+            color: #333;
+            text-shadow: none;
+            filter: none;
+        }
+
+        /* 3. 綠色方框熄滅 */
+        body.lights-off .box-neon-green {
+            box-shadow: none;
+            border-color: #333;
+            filter: none;
+        }
+
+        /* 4. 紅色邊框 (不夜城) 熄滅 - 修正 */
+        body.lights-off .border-neon-red {
+            border-color: #333;
+            box-shadow: none;
+            filter: none;
+        }
+
+        /* 5. 愛心圖案熄滅 */
+        body.lights-off .heart-shape,
+        body.lights-off .heart-shape::before,
+        body.lights-off .heart-shape::after {
+            background-color: #333;
+            box-shadow: none;
+            animation: none;
+            filter: none;
+        }
+
+        /* 6. 藍色圓環熄滅 */
+        body.lights-off .circle-shape {
+            border-color: #333;
+            box-shadow: none;
+            filter: none;
+        }
+
+        /* 7. 24h 文字熄滅 - 修正 */
+        body.lights-off .text-neon-white-glow {
+            color: #333;
+            text-shadow: none;
+        }
+
+        /* 8. 輔助文字 (OPEN LATE) 熄滅 - 修正 */
+        body.lights-off .text-aux,
+        body.lights-off .text-aux-green {
+            color: #333;
+        }
+        
+        /* 9. CAUTION 樣式熄滅 - 新增 */
+        body.lights-off .caution-style {
+            border-color: #333;
+            box-shadow: none;
+            filter: none;
+        }
+
+        /* 關閉時禁用滑桿的視覺效果 */
+        body.lights-off #brightness-container {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        /* 自定義字體設定 */
+        .font-cursive { font-family: 'Vibur', cursive; }
+        .font-retro { font-family: 'Monoton', cursive; }
+        .font-handwriting { font-family: 'Neonderthaw', cursive; }
+
+        /* 圓環圖案 */
+        .circle-shape {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid #fff;
+            box-shadow:
+                0 0 .2rem #fff,
+                inset 0 0 .2rem #fff,
+                0 0 2rem #0bc,
+                inset 0 0 2rem #0bc,
+                0 0 4rem #0bc,
+                inset 0 0 4rem #0bc;
+        }
+
+        /* 滑桿樣式自定義 */
+        input[type=range] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #ffffff;
+            cursor: pointer;
+            margin-top: -6px;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #555;
+            border-radius: 2px;
+        }
+        input[type=range]:focus {
+            outline: none;
+        }

@@ -1,0 +1,12 @@
+/* 簡單的客製化樣式，讓表單居中並美觀 */
+        body {
+            background-color: #f8f9fa; /* 淺灰色背景 */
+        }
+        .register-container {
+            max-width: 450px;
+            margin-top: 50px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff; /* 白色卡片背景 */
+        }

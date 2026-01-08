@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   CSS 變數 + JS 霓虹燈特效
+  </title>
+  <link href="style.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <h1 class="neon-text" id="demoText">
+   CYBERPUNK
+  </h1>
+  <div class="controls">
+   <div>
+    <label for="colorPicker">
+     霓虹色調:
+    </label>
+    <input id="colorPicker" type="color" value="#00ffff"/>
+   </div>
+   <div>
+    <label for="glowRange">
+     發光強度:
+    </label>
+    <input id="glowRange" max="100" min="10" type="range" value="20"/>
+   </div>
+  </div>
+  <script src="script.js">
+  </script>
+ </body>
+</html>
